@@ -1,10 +1,14 @@
 <script setup lang="ts">
-import { computed, reactive, ref, provide } from 'vue';
+import { computed, reactive, ref, provide, watch } from 'vue';
 import { RouterLink } from 'vue-router'
 import MixerIcon from '@/assets/images/MixerIcon.vue'
 import formImport from '@/components/formInput.vue'
-import { login } from '@/api/user.js'
+
+import { useAuthenticator } from '@/stores/authenticator'
+const authenticator = useAuthenticator()
+
 import Swal from 'sweetalert2'
+import router from '@/router';
 
 let status = ref('')
 provide('status', status)
@@ -12,6 +16,38 @@ const form = reactive({
   accountInput: '',
   passwordInput: ''
 })
+
+watch(authenticator, () => {
+  if (authenticator.isAuthenticated) {
+    router.push('/')
+  }
+}, { immediate: true })
+
+const handleSubmitForm = async () => {
+  try {
+    status.value = 'submitting'
+    const response = await authenticator.login(form.accountInput, form.passwordInput)
+
+    if (response.success) {
+      status.value = 'success'
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Log in successfully.',
+        showConfirmButton: false,
+        timer: 1500
+      })
+    } else {
+      status.value = 'error'
+      errorToast.fire({
+        icon: 'error',
+        title: response.messages
+      })
+    }
+  } catch (e) {
+    console.error(e)
+  }
+}
 
 const errorToast = Swal.mixin({
   target: '#custom-target',
@@ -26,35 +62,10 @@ const errorToast = Swal.mixin({
   }
 })
 
-const handleSubmitForm = async () => {
-  status.value = 'submitting'
-  const response = await login(form.accountInput, form.passwordInput)
-
-  if (response.success) {
-    localStorage.setItem('authToken', response.token)
-    status.value = 'success'
-    Swal.fire({
-      position: 'top-end',
-      icon: 'success',
-      title: 'Log in successfully.',
-      showConfirmButton: false,
-      timer: 1500
-    })
-  } else {
-    status.value = 'error'
-    errorToast.fire({
-      icon: 'error',
-      title: response.messages
-    })
-  }
-}
-
 const inputInvalid = computed(() => {
   if (form.accountInput.length === 0 ||
     form.passwordInput.length < 7 ||
     status.value === 'submitting') return true
-  // if (form.passwordInput.length < 7) return true
-  // if (status === 'submitting') return true
   return false
 })
 
