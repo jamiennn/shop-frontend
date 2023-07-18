@@ -23,7 +23,7 @@ const routes = [
     path: '/',
     name: 'HomePage',
     component: HomePage,
-    beforeEnter: checkAuthBeforeEnter
+    // beforeEnter: checkAuthBeforeEnter
   }
 ]
 

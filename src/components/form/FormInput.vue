@@ -36,7 +36,9 @@ const inputClass = computed(() => {
   <div class="input-minmax"></div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+@import '../../assets/main.scss';
+
 input:focus {
   outline-width: 0;
 }
@@ -61,35 +63,10 @@ input:valid {
 }
 
 .form-input {
-  height: 26px;
-  width: 100%;
-  padding: 0 0 0 10px;
-  background-color: var(--form-gray);
-  /* border */
-  border-radius: 2px;
-  border-width: 0;
-  border-bottom: 2px solid #657786;
+  @extend %input-style
 }
 
 
-.form-input::placeholder {
-  color: #B5B5BE
-}
-
-.form-input:hover,
-.form-input:focus {
-  border-bottom: 2px solid var(--info);
-  outline-width: 0;
-}
-
-.form-input-invalid {
-  border-bottom: 2px solid var(--danger);
-}
-
-
-/* // .was-validated .form-input:invalid {
-//   border-bottom: 2px solid var(--danger);
-// } */
 
 /* .invalid-feedback {
   display: none;

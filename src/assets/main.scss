@@ -1,0 +1,249 @@
+@import './reset.scss';
+@import './base.scss';
+
+$sizes: (
+  25: 25%,
+  50: 50%,
+  75: 75%,
+  100: 100%
+);
+
+/* 使用@each 產出css size設定 */
+@each $prop,
+$abbrev in (width: w, height: h) {
+
+  @each $num,
+  $val in sizes {
+    .#{$abbrev}-#{$num} {
+      #{$prop}: #{$val}
+    }
+  }
+}
+
+$spacer: 1rem;
+$spacers: (
+  0: 0,
+  1: ($spacer * 0.25),
+  2: ($spacer * 0.5),
+  3: ($spacer * 0.75),
+  4: $spacer,
+  5: ($spacer * 1.25),
+  6: ($spacer * 1.5),
+  7: ($spacer * 1.75),
+  8: ($spacer * 2)
+);
+
+/* 使用@each 產出css spacer設定 */
+@each $prop,
+$abbrev in (margin: m, padding: p) {
+
+  @each $num,
+  $val in $spacers {
+    .#{$abbrev}-#{$num} {
+      #{$prop}: $val;
+    }
+
+    .#{$abbrev}t-#{$num} {
+      #{$prop}-top: $val;
+    }
+
+    .#{$abbrev}r-#{$num} {
+      #{$prop}-right: $val;
+    }
+
+    .#{$abbrev}b-#{$num} {
+      #{$prop}-bottom: $val;
+    }
+
+    .#{$abbrev}l-#{$num} {
+      #{$prop}-left: $val;
+    }
+
+    .#{$abbrev}x-#{$num} {
+      #{$prop}-left: $val;
+      #{$prop}-right: $val;
+    }
+
+    .#{$abbrev}y-#{$num} {
+      #{$prop}-top: $val;
+      #{$prop}-bottom: $val;
+    }
+  }
+}
+
+.wrapper {
+  display: flex;
+  align-items: flex-start;
+  min-width: 1100px;
+}
+
+.main {
+  width: 639px;
+  border-left: 1px solid #E6ECF0;
+  border-right: 1px solid #E6ECF0;
+  position: relative;
+  margin: 0 24px;
+}
+
+.background-image {
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a:-webkit-any-link {
+  text-decoration: none;
+}
+
+
+%input-style {
+  height: 26px;
+  width: 100%;
+  padding: 0 0 0 10px;
+  background-color: var(--form-gray);
+  border-width: 0;
+  border-bottom: 2px solid #657786;
+  border-radius: 5px;
+  font-size: 16px;
+  padding: 0.5em;
+
+  &:hover,
+  &:focus {
+    border-bottom: 2px solid var(--info);
+    outline-width: 0;
+  }
+
+  &::placeholder {
+    color: #B5B5BE
+  }
+
+  &-invalid {
+    border-bottom: 2px solid var(--danger);
+  }
+}
+
+%standard-boxshadow {
+  box-shadow: 3px 0 13px 0 rgba(100, 112, 134, 0.1);
+}
+
+%standard-href {
+  text-decoration: none;
+  font-size: 15px;
+  margin-top: 10px;
+  text-align: end;
+  color: var(--blue);
+
+  // &:visited {
+  //   color: var(--blue)
+  // }
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+%standard-button {
+  height: 25px;
+  background-color: var(--light-blue);
+  color: var(--dark);
+  border: none;
+  border-radius: 10%;
+  cursor: pointer;
+
+  &:hover {
+    opacity: .4;
+  }
+}
+
+html {
+  font-size: 16px;
+  height: 100%;
+}
+
+.d-none {
+  display: none;
+}
+
+.d-inline {
+  display: inline;
+}
+
+.d-inline-block {
+  display: inline-block;
+}
+
+.d-block {
+  display: block;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.justify-content-start {
+  justify-content: flex-start;
+}
+
+.justify-content-end {
+  justify-content: flex-end;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.justify-content-between {
+  justify-content: space-between;
+}
+
+.justify-content-around {
+  justify-content: space-around;
+}
+
+.align-content-start {
+  align-content: flex-start;
+}
+
+.align-content-end {
+  align-content: flex-end;
+}
+
+.align-content-center {
+  align-content: center;
+}
+
+.align-items-start {
+  align-items: flex-start;
+}
+
+.align-items-end {
+  align-items: flex-end;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}

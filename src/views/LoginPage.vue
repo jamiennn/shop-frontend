@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, reactive, ref, provide, watch } from 'vue';
 import { RouterLink } from 'vue-router'
-import MixerIcon from '@/assets/images/MixerIcon.vue'
-import formImport from '@/components/formInput.vue'
+import Logo from '@/components/header/Logo.vue'
+import FormImport from '@/components/form/FormInput.vue'
 
 import { useAuthenticator } from '@/stores/authenticator'
 const authenticator = useAuthenticator()
@@ -73,15 +73,13 @@ const inputInvalid = computed(() => {
 
 <template>
   <div class="container">
-    <div class="logo-container text-center">
-      <MixerIcon class="logo" alt="logo" />
-    </div>
 
+    <Logo class="mx-auto" />
     <h3 class="login-title text-center">登入 Shop</h3>
 
     <form action="/signin" method="POST" id="form">
-      <formImport name="account" nameCn="帳號" type="text" v-model="form.accountInput" />
-      <formImport name="password" nameCn="密碼" type="password" v-model="form.passwordInput" />
+      <FormImport name="account" nameCn="帳號" type="text" v-model="form.accountInput" />
+      <FormImport name="password" nameCn="密碼" type="password" v-model="form.passwordInput" />
       <div class="button-wrapper">
         <button type="submit" class="btn-submit" id="submit" @click.stop.prevent="handleSubmitForm"
           :disabled="inputInvalid">登入</button>
@@ -95,72 +93,69 @@ const inputInvalid = computed(() => {
   <div id="custom-target"></div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .container {
   max-width: 400px;
   margin: 100px auto 0 auto;
-}
 
-.logo-container {
-  height: 40px;
-  margin-bottom: 29px
-}
+  // .logo-container {
+  //   height: 40px;
+  //   margin-bottom: 29px;
 
-.logo {
-  height: 100%;
-  width: 100%;
-  border-radius: 50%;
-  object-fit: cover;
-}
+  //   .logo {
+  //     height: 100%;
+  //     width: 100%;
+  //     border-radius: 50%;
+  //     object-fit: cover;
+  //     height: 40px;
+  //     width: 40px;
+  //     object-fit: unset;
+  //   }
+  // }
 
-.logo-container .logo {
-  height: 40px;
-  width: 40px;
-  object-fit: unset;
-}
+  .login-title {
+    color: var(--blue);
+  }
 
-.login-title {
-  color: var(--blue);
-}
+  #form {
+    margin-top: 20px;
 
-#form {
-  margin-top: 20px
-}
+    .button-wrapper {
+      width: 100%;
 
-.button-wrapper {
-  width: 100%;
-}
+      .btn-submit {
+        margin-top: 20px;
+        width: 100%;
+        height: 35px;
+        border-radius: 3px;
+        border: 0px;
+        background-color: var(--blue);
+        color: white;
+        font-size: 17px;
+        font-weight: 900;
+        cursor: pointer;
+      }
 
-.btn-submit {
-  margin-top: 20px;
-  width: 100%;
-  height: 35px;
-  border-radius: 3px;
-  border: 0px;
-  background-color: var(--blue);
-  color: white;
-  font-size: 17px;
-  font-weight: 900;
-  cursor: pointer;
-}
+      .btn-submit:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+    }
+  }
 
-.btn-submit:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
+  #form+.register {
+    text-decoration: none;
+    font-size: 15px;
+    margin-top: 10px;
+    text-align: end;
 
-#form+.register {
-  text-decoration: none;
-  font-size: 15px;
-  margin-top: 10px;
-  text-align: end;
-}
+    #register-tag:visited {
+      color: var(--blue)
+    }
 
-#register-tag:visited {
-  color: var(--blue)
-}
-
-#register-tag:hover {
-  text-decoration: underline;
+    #register-tag:hover {
+      text-decoration: underline;
+    }
+  }
 }
 </style>
