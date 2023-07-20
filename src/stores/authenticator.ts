@@ -1,8 +1,9 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
+import router from '@/router';
 import { loginApi, testTokenApi } from '@/api/user.js'
-
+import { successToast } from '@/helper/toast.js'
 
 export const useAuthenticator = defineStore('authenticator', () => {
   const isAuthenticated = ref(false)
@@ -39,6 +40,11 @@ export const useAuthenticator = defineStore('authenticator', () => {
     localStorage.removeItem('authToken')
     isAuthenticated.value = false
     currentMember.value = null
+    router.push('/')
+    successToast(
+      'success',
+      'Log out successfully.'
+    )
   }
   const checkPermission = async (authToken) => {
     try {

@@ -2,22 +2,13 @@
 import { useAuthenticator } from '@/stores/authenticator';
 const authenticator = useAuthenticator()
 import Swal from 'sweetalert2'
+import { successToast } from '@/helper/toast.js'
 
-const handleLogout = () => {
-  authenticator.logout()
-  Swal.fire({
-    position: 'top-center',
-    icon: 'success',
-    title: 'Log out successfully.',
-    showConfirmButton: false,
-    timer: 1500
-  })
-}
 </script>
 
 <template>
   <li class="text-center">
-    <button @click="handleLogout" class="btn-logout">logout</button>
+    <button @click="authenticator.logout" class="btn-logout">logout</button>
   </li>
 </template>
 

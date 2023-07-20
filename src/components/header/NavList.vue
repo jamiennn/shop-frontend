@@ -4,7 +4,7 @@ import NavItem from '@/components/header/NavItem.vue'
 </script>
 <template>
   <ul class="nav-list-wrapper">
-    <NavItem role="guest" />
+    <NavItem role="buyer" />
   </ul>
 </template>
 

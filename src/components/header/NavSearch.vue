@@ -1,11 +1,19 @@
 <script setup lang="ts">
+import { ref, watch } from 'vue';
+import { useQueryStringStore } from '@/stores/queryString'
+const queryStringStore = useQueryStringStore()
+const keyword = ref(queryStringStore.keyword || '')
+
+function handleSubmit() {
+  queryStringStore.handleSearchKeyword(keyword.value)
+}
 
 </script>
 <template>
   <div class="nav-search-wrapper">
     <div class="nav-search-input-wrapper">
-      <input type="text" class="nav-search-input" maxlength="15">
-      <button class="btn-search">
+      <input type="text" class="nav-search-input" maxlength="15" v-model="keyword" @keyup.enter="handleSubmit">
+      <button class="btn-search" @click="handleSubmit">
         <p class="search-icon">search</p>
       </button>
     </div>

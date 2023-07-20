@@ -2,10 +2,11 @@
 import { computed, reactive, ref, provide, watch } from 'vue';
 import { RouterLink } from 'vue-router'
 import Logo from '@/components/header/Logo.vue'
-import FormImport from '@/components/form/FormInput.vue'
+import FormImput from '@/components/form/FormInput.vue'
 
 import { useAuthenticator } from '@/stores/authenticator'
 const authenticator = useAuthenticator()
+import { errorToast, successToast } from '@/helper/toast.js'
 
 import Swal from 'sweetalert2'
 import router from '@/router';
@@ -30,37 +31,21 @@ const handleSubmitForm = async () => {
 
     if (response.success) {
       status.value = 'success'
-      Swal.fire({
-        position: 'top-end',
-        icon: 'success',
-        title: 'Log in successfully.',
-        showConfirmButton: false,
-        timer: 1500
-      })
+      successToast(
+        'success',
+        'Log in successfully.'
+      )
     } else {
       status.value = 'error'
-      errorToast.fire({
-        icon: 'error',
-        title: response.messages
-      })
+      errorToast(
+        'error',
+        response.messages
+      )
     }
   } catch (e) {
     console.error(e)
   }
 }
-
-const errorToast = Swal.mixin({
-  target: '#custom-target',
-  position: 'top-end',
-  toast: true,
-  showConfirmButton: false,
-  timer: 5000,
-  timerProgressBar: true,
-  didOpen: (toast) => {
-    toast.addEventListener('mouseenter', Swal.stopTimer)
-    toast.addEventListener('mouseleave', Swal.resumeTimer)
-  }
-})
 
 const inputInvalid = computed(() => {
   if (form.accountInput.length === 0 ||
@@ -72,14 +57,14 @@ const inputInvalid = computed(() => {
 </script>
 
 <template>
-  <div class="container">
+  <div class="login-container">
 
     <Logo class="mx-auto" />
     <h3 class="login-title text-center">登入 Shop</h3>
 
     <form action="/signin" method="POST" id="form">
-      <FormImport name="account" nameCn="帳號" type="text" v-model="form.accountInput" />
-      <FormImport name="password" nameCn="密碼" type="password" v-model="form.passwordInput" />
+      <FormImput name="account" nameCn="帳號" type="text" v-model="form.accountInput" />
+      <FormImput name="password" nameCn="密碼" type="password" v-model="form.passwordInput" />
       <div class="button-wrapper">
         <button type="submit" class="btn-submit" id="submit" @click.stop.prevent="handleSubmitForm"
           :disabled="inputInvalid">登入</button>
@@ -94,24 +79,9 @@ const inputInvalid = computed(() => {
 </template>
 
 <style scoped lang="scss">
-.container {
+.login-container {
   max-width: 400px;
   margin: 100px auto 0 auto;
-
-  // .logo-container {
-  //   height: 40px;
-  //   margin-bottom: 29px;
-
-  //   .logo {
-  //     height: 100%;
-  //     width: 100%;
-  //     border-radius: 50%;
-  //     object-fit: cover;
-  //     height: 40px;
-  //     width: 40px;
-  //     object-fit: unset;
-  //   }
-  // }
 
   .login-title {
     color: var(--blue);

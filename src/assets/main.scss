@@ -71,6 +71,12 @@ $abbrev in (margin: m, padding: p) {
   }
 }
 
+.container {
+  min-width: 600px;
+  max-width: 1200px;
+  margin: 60px auto 0 auto;
+}
+
 .wrapper {
   display: flex;
   align-items: flex-start;
@@ -151,11 +157,11 @@ a:-webkit-any-link {
   background-color: var(--light-blue);
   color: var(--dark);
   border: none;
-  border-radius: 10%;
+  border-radius: 10px;
   cursor: pointer;
 
   &:hover {
-    opacity: .4;
+    opacity: .8;
   }
 }
 
