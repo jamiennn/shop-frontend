@@ -19,16 +19,12 @@ export const errorToast = (icon, title) => {
 }
 
 export const successToast = (icon, title) => {
-  const toast = Swal.fire({
-    position: 'top-end',
+  Swal.fire({
+    position: 'center',
     icon,
     title,
     showConfirmButton: false,
     timer: 1500
-  })
-  toast.fire({
-    icon,
-    title
   })
 }
 

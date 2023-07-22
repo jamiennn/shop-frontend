@@ -18,7 +18,7 @@ watch(queryStringStore, async () => {
 </script>
 
 <template>
-  <a v-for="(product, i) in products" :key="i" :href="`/products/${product.id}`" class="product-item-link">
+  <router-link v-for="(product, i) in products" :key="i" :to="`/products/${product.id}`" class="product-item-link">
 
     <div class="product-item-wrapper">
       <div class="product-image-wrapper">
@@ -35,7 +35,7 @@ watch(queryStringStore, async () => {
     <button class="btn-add-product" id="btn-add-product">
       cart
     </button>
-  </a>
+  </router-link>
 </template>
 
 <style scoped lang="scss">

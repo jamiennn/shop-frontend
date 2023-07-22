@@ -8,6 +8,8 @@ import { successToast } from '@/helper/toast.js'
 export const useAuthenticator = defineStore('authenticator', () => {
   const isAuthenticated = ref(false)
   const currentMember = ref(null)
+  const role = ref('')
+
   const login = async (account, password) => {
     try {
       const { success, messages } = await loginApi(account, password)
@@ -71,6 +73,7 @@ export const useAuthenticator = defineStore('authenticator', () => {
   return {
     isAuthenticated,
     currentMember,
+    role,
     login,
     logout,
     checkPermission

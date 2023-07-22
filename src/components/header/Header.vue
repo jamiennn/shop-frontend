@@ -3,6 +3,8 @@ import { inject } from 'vue'
 import Logo from '@/components/header/Logo.vue'
 import NavSearch from '@/components/header/NavSearch.vue'
 import NavList from '@/components/header/NavList.vue'
+import { useQueryStringStore } from '@/stores/queryString'
+const queryStringStore = useQueryStringStore()
 
 
 </script>
@@ -11,12 +13,12 @@ import NavList from '@/components/header/NavList.vue'
   <header>
     <div class="nav-container">
       <div class="nav-wrapper d-flex flex-row justify-content-around align-content-center">
-        <a href="/">
+        <router-link to="/" @click="queryStringStore.handleClearAll">
           <div class="nav-logo-wrapper d-flex flex-row">
             <Logo />
             <h5 class="nav-name">Shop</h5>
           </div>
-        </a>
+        </router-link>
         <NavSearch />
         <NavList />
       </div>

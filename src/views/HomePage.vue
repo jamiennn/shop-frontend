@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+
 import Header from '@/components/header/Header.vue'
 import ProductList from '@/components/product/ProductList.vue'
 import SideBar from '@/components/form/SideBar.vue'

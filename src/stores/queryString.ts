@@ -11,6 +11,7 @@ export const useQueryStringStore = defineStore('queryStringHelper', () => {
   const priceMin = ref('')
   const priceMax = ref('')
   const page = ref(1)
+  const shopId = ref('')
 
   // 用於 re-render product 
   const productListKey = ref(0)
@@ -22,32 +23,32 @@ export const useQueryStringStore = defineStore('queryStringHelper', () => {
     if (priceMin.value) str += `&priceMin=${priceMin.value}`
     if (priceMax.value) str += `&priceMax=${priceMax.value}`
     if (page.value) str += `&page=${page.value}`
+    if (shopId.value) str += `&shopId=${shopId.value}`
 
     return str
   })
+
+  function queryRedirect() {
+    router.push(
+      `/${queryString.value}`
+    )
+  }
 
   // 用於 re-render product 
   function getProductListKey() {
     return `product-list-wrapper-${productListKey.value}`
   }
 
-
   function handleClickPage(e) {
     page.value = e.target.innerText
     productListKey.value += 1
-
-    router.push(
-      `/${queryString.value}`
-    )
+    queryRedirect()
   }
   function handleSearchKeyword(newKeyword) {
     keyword.value = newKeyword
     productListKey.value += 1
     page.value = 1
-
-    router.push(
-      `/${queryString.value}`
-    )
+    queryRedirect()
   }
 
   function handlePriceRange(newPriceMin, newPriceMax) {
@@ -57,9 +58,7 @@ export const useQueryStringStore = defineStore('queryStringHelper', () => {
 
     productListKey.value += 1
 
-    router.push(
-      `/${queryString.value}`
-    )
+    queryRedirect()
   }
 
   function handleClearSearch() {
@@ -70,10 +69,20 @@ export const useQueryStringStore = defineStore('queryStringHelper', () => {
 
     // 用於 re-render product 
     productListKey.value += 1
+    queryRedirect()
+  }
 
-    router.push(
-      `/${queryString.value}`
-    )
+  function handleClearAll() {
+    keyword.value = ''
+    shopId.value = ''
+    handleClearSearch()
+  }
+
+  function handleClearQueryExceptShop() {
+    keyword.value = ''
+    priceMin.value = ''
+    priceMax.value = ''
+    page.value = 1
   }
 
   async function handleHomePage() {
@@ -97,6 +106,7 @@ export const useQueryStringStore = defineStore('queryStringHelper', () => {
     priceMin,
     priceMax,
     page,
+    shopId,
     queryString,
     handleClickPage,
     handleHomePage,
@@ -104,6 +114,8 @@ export const useQueryStringStore = defineStore('queryStringHelper', () => {
     productListKey,
     handleSearchKeyword,
     handlePriceRange,
-    handleClearSearch
+    handleClearSearch,
+    handleClearAll,
+    handleClearQueryExceptShop
   }
 })

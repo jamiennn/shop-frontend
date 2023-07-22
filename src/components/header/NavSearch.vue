@@ -7,7 +7,9 @@ const keyword = ref(queryStringStore.keyword || '')
 function handleSubmit() {
   queryStringStore.handleSearchKeyword(keyword.value)
 }
-
+watch(queryStringStore, () => {
+  keyword.value = queryStringStore.keyword
+})
 </script>
 <template>
   <div class="nav-search-wrapper">

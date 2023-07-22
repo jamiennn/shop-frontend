@@ -14,13 +14,47 @@ const checkAuthBeforeEnter = async () => {
   }, { immediate: true })
 }
 
-const checkQueryBeforeEnter = async (route) => {
+const checkRoleBeforeEnter = async () => {
+  const authenticator = useAuthenticator()
+
+  watch(authenticator, () => {
+    if (!authenticator.currentMember) {
+      authenticator.role = 'guest'
+    } else if (authenticator.currentMember.isSeller) {
+      authenticator.role = 'seller'
+    } else {
+      authenticator.role = 'buyer'
+    }
+  }, { immediate: true })
+}
+
+const checkQueryBeforeHome = async (route, from) => {
   const queryStringStore = useQueryStringStore()
-  const { keyword, priceMin, priceMax, page } = route.query
+  const { keyword, priceMin, priceMax, page, shopId } = route.query
+
+  if (shopId) router.replace(`${from.path}${queryStringStore.queryString}`)
+
   queryStringStore.keyword = keyword
   queryStringStore.priceMin = priceMin
   queryStringStore.priceMax = priceMax
   queryStringStore.page = page
+}
+
+const checkQueryBeforeShop = async (route) => {
+  const queryStringStore = useQueryStringStore()
+  const { keyword, priceMin, priceMax, page } = route.query
+
+  queryStringStore.shopId = route.params.uid
+  queryStringStore.keyword = keyword
+  queryStringStore.priceMin = priceMin
+  queryStringStore.priceMax = priceMax
+  queryStringStore.page = page
+}
+
+const clearAllQuery = () => {
+  const queryStringStore = useQueryStringStore()
+  queryStringStore.handleClearAll()
+  router.push('/')
 }
 
 const routes = [
@@ -30,11 +64,24 @@ const routes = [
     component: LoginPage
   },
   {
+    path: '/users/:uid/products',
+    name: 'SellerPage',
+    component: HomePage,
+    beforeEnter: [
+      checkRoleBeforeEnter,
+      checkQueryBeforeShop]
+  },
+  {
     path: '/',
     name: 'HomePage',
     component: HomePage,
-    beforeEnter: checkQueryBeforeEnter
-  }
+    beforeEnter: [checkQueryBeforeHome, checkRoleBeforeEnter]
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'OtherPages',
+    beforeEnter: [checkRoleBeforeEnter, clearAllQuery]
+  },
 ]
 
 const router = createRouter({
