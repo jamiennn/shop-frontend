@@ -22,9 +22,12 @@ watch(queryStringStore, async () => {
 
     <div class="product-item-wrapper">
       <div class="product-image-wrapper">
-        <img v-show="isLoaded" :src="product.image" :alt="product.name" class="product-image"
-          @load="() => isLoaded = true">
-        <Placeholder v-show="!isLoaded" class="product-image placeholder" />
+        <div v-if="product.image">
+          <img v-show="isLoaded" :src="product.image" :alt="product.name" class="product-image"
+            @load="() => isLoaded = true">
+          <Placeholder v-show="!isLoaded" class="product-image placeholder" />
+        </div>
+        <Placeholder v-if="!product.image" class="product-image placeholder" />
       </div>
       <div class="product-name">
         {{ product.name }}
@@ -39,8 +42,6 @@ watch(queryStringStore, async () => {
 </template>
 
 <style scoped lang="scss">
-@import '../../assets/main.scss';
-
 .product-item-link {
   display: block;
   position: relative;

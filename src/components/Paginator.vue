@@ -43,8 +43,6 @@ function getClass(i) {
 
 
 <style lang="scss">
-@import '../assets/main.scss';
-
 .pagination-container {
   text-align: center;
 }

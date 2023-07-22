@@ -32,8 +32,6 @@ watch(queryStringStore, () => {
 </template>
 
 <style lang="scss">
-@import '../../assets/main.scss';
-
 .search-price-wrapper {
   width: 100%
 }

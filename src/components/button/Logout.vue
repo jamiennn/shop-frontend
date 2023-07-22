@@ -13,8 +13,6 @@ import { successToast } from '@/helper/toast.js'
 </template>
 
 <style lang="scss">
-@import '../../assets/main.scss';
-
 .btn-logout {
   @extend %standard-button
 }

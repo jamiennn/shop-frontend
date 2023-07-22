@@ -2,7 +2,7 @@ import Swal from 'sweetalert2'
 export const errorToast = (icon, title) => {
   const toast = Swal.mixin({
     target: '#custom-target',
-    position: 'top-end',
+    position: 'top',
     toast: true,
     showConfirmButton: false,
     timer: 5000,

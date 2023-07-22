@@ -23,8 +23,6 @@ watch(queryStringStore, () => {
 </template>
 
 <style lang="scss">
-@import '../../assets/main.scss';
-
 .nav-search-wrapper {
   height: 50px;
   width: 40%

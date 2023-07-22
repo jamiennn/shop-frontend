@@ -43,8 +43,6 @@ const wrapperClass = "nav-list d-flex flex-row"
 </template>
 
 <style lang="scss">
-@import '../../assets/main.scss';
-
 .nav-list-item {
   @extend %standard-href;
   cursor: pointer;

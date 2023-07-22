@@ -3,16 +3,17 @@ import { computed, reactive, ref, provide, watch } from 'vue';
 import { RouterLink } from 'vue-router'
 import Logo from '@/components/header/Logo.vue'
 import FormImput from '@/components/form/FormInput.vue'
+import Swal from 'sweetalert2'
 
 import { useAuthenticator } from '@/stores/authenticator'
 const authenticator = useAuthenticator()
 import { errorToast, successToast } from '@/helper/toast.js'
 
-import Swal from 'sweetalert2'
 import router from '@/router';
 
 let status = ref('')
 provide('status', status)
+
 const form = reactive({
   accountInput: '',
   passwordInput: ''
@@ -27,6 +28,7 @@ watch(authenticator, () => {
 const handleSubmitForm = async () => {
   try {
     status.value = 'submitting'
+    Swal.showLoading()
     const response = await authenticator.login(form.accountInput, form.passwordInput)
 
     if (response.success) {
@@ -59,12 +61,12 @@ const inputInvalid = computed(() => {
 <template>
   <div class="login-container">
 
-    <Logo class="mx-auto" />
+    <Logo class="logo" />
     <h3 class="login-title text-center">登入 Shop</h3>
 
     <form action="/signin" method="POST" id="form">
-      <FormImput name="account" nameCn="帳號" type="text" v-model="form.accountInput" />
-      <FormImput name="password" nameCn="密碼" type="password" v-model="form.passwordInput" />
+      <FormImput name="account" nameCn="帳號" type="text" v-model="form.accountInput" customClass="" />
+      <FormImput name="password" nameCn="密碼" type="password" v-model="form.passwordInput" customClass="" />
       <div class="button-wrapper">
         <button type="submit" class="btn-submit" id="submit" @click.stop.prevent="handleSubmitForm"
           :disabled="inputInvalid">登入</button>
@@ -82,6 +84,10 @@ const inputInvalid = computed(() => {
 .login-container {
   max-width: 400px;
   margin: 100px auto 0 auto;
+
+  .logo {
+    margin: 0 auto;
+  }
 
   .login-title {
     color: var(--blue);

@@ -165,6 +165,12 @@ a:-webkit-any-link {
   }
 }
 
+%standard-title {
+  color: var(--dark-blue);
+  font-size: 25px;
+  font-weight: 500;
+}
+
 html {
   font-size: 16px;
   height: 100%;

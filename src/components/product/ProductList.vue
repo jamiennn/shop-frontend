@@ -22,8 +22,6 @@ watch(queryStringStore, async () => {
 </template>
 
 <style scoped lang="scss">
-@import '../../assets/main.scss';
-
 .product-list-wrapper {
   margin: 20px;
   display: grid;

@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export const axiosInstance = (baseURL) => {
+export default function axiosInstanceHelper(baseURL) {
   const instance = axios.create({ baseURL })
   instance.interceptors.request.use(
     (config) => {
@@ -9,4 +9,5 @@ export const axiosInstance = (baseURL) => {
       return config
     }, (error) => console.error(error)
   )
+  return instance
 }

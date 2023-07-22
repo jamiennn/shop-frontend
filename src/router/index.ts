@@ -2,10 +2,13 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { watch } from 'vue'
 import LoginPage from '../views/LoginPage.vue'
 import HomePage from '../views/HomePage.vue'
+import CreateProductPage from '../views/CreateProductPage.vue'
 
 import { useAuthenticator } from '@/stores/authenticator';
 import { useQueryStringStore } from '@/stores/queryString'
+import { errorToast } from '@/helper/toast.js'
 
+// 檢查是否已登入
 const checkAuthBeforeEnter = async () => {
   const authenticator = useAuthenticator()
 
@@ -14,6 +17,7 @@ const checkAuthBeforeEnter = async () => {
   }, { immediate: true })
 }
 
+// 檢查角色，方便條件判斷使用
 const checkRoleBeforeEnter = async () => {
   const authenticator = useAuthenticator()
 
@@ -28,6 +32,19 @@ const checkRoleBeforeEnter = async () => {
   }, { immediate: true })
 }
 
+// 檢查是否為賣家
+const checkSellerAuth = () => {
+  const authenticator = useAuthenticator()
+  if (authenticator.role !== 'seller') {
+    errorToast(
+      'error',
+      'Unauthorized'
+    )
+    router.push('/')
+  }
+}
+
+// 檢查 query string
 const checkQueryBeforeHome = async (route, from) => {
   const queryStringStore = useQueryStringStore()
   const { keyword, priceMin, priceMax, page, shopId } = route.query
@@ -40,6 +57,7 @@ const checkQueryBeforeHome = async (route, from) => {
   queryStringStore.page = page
 }
 
+// 檢查 query string
 const checkQueryBeforeShop = async (route) => {
   const queryStringStore = useQueryStringStore()
   const { keyword, priceMin, priceMax, page } = route.query
@@ -70,6 +88,14 @@ const routes = [
     beforeEnter: [
       checkRoleBeforeEnter,
       checkQueryBeforeShop]
+  },
+  {
+    path: '/products/new',
+    name: 'create',
+    component: CreateProductPage,
+    beforeEnter: [
+      checkRoleBeforeEnter,
+      checkSellerAuth]
   },
   {
     path: '/',

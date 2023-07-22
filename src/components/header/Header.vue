@@ -6,7 +6,9 @@ import NavList from '@/components/header/NavList.vue'
 import { useQueryStringStore } from '@/stores/queryString'
 const queryStringStore = useQueryStringStore()
 
-
+defineProps<{
+  searchbar: boolean
+}>()
 </script>
 
 <template>
@@ -19,7 +21,7 @@ const queryStringStore = useQueryStringStore()
             <h5 class="nav-name">Shop</h5>
           </div>
         </router-link>
-        <NavSearch />
+        <NavSearch v-if="searchbar" />
         <NavList />
       </div>
     </div>
@@ -27,8 +29,6 @@ const queryStringStore = useQueryStringStore()
 </template>
 
 <style scoped lang="scss">
-@import '../../assets/main.scss';
-
 .nav-container {
   @extend %standard-boxshadow;
 }
