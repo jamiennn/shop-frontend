@@ -3,8 +3,13 @@ import { watch, reactive, ref } from 'vue'
 import Placeholder from '@/assets/images/MixerIcon-placeholder.vue'
 import Edit from '@/assets/images/Edit.vue'
 import Delete from '@/assets/images/Delete.vue'
+import Cart from '@/assets/images/Cart.vue'
+import Swal from 'sweetalert2'
+
+
 import { patchProductApi } from '@/api/product.js'
 import { errorToast, successToast } from '@/helper/toast.js'
+import { createCartApi } from '@/api/cart.js'
 
 
 import { useQueryStringStore } from '@/stores/queryString'
@@ -33,13 +38,35 @@ watch(queryStringStore, async () => {
 
 // 下架功能
 async function handleOffShelf(productId) {
-  alert('確定要下架此商品嗎？')
+  const response = confirm('確定要下架此商品嗎？')
+  if (!response) return
   const data = await patchProductApi(productId)
   if (data.success) {
     successToast('success', '下架成功')
-    router.replace({ path: '/empty' })
+    queryStringStore.handleClearQueryExceptShop()
+    router.push(`/users/${authenticator.currentMember.id}/products`)
   } else {
     errorToast('error', data.messages)
+  }
+}
+
+// 加入購物車功能
+const handleAddToCart = async (productId) => {
+
+  Swal.showLoading()
+  const response = await createCartApi(productId, 1)
+
+  if (!response.success) {
+    errorToast(
+      'error',
+      response.messages
+    )
+  } else {
+    successToast(
+      'success',
+      `加入購物車成功`
+    )
+    router.push(`/carts/${authenticator.currentMember.id}`)
   }
 }
 
@@ -66,9 +93,9 @@ async function handleOffShelf(productId) {
 
     <!-- 按鈕部分 -->
     <div v-if="role === 'buyer'" class="buyer">
-      <button class="btn-product" id="btn-add-product">
-        cart
-      </button>
+      <Cart class="btn-product btn-add-product" id="btn-add-product" @click="() => handleAddToCart(product.id)" />
+      <span class="tooltip tooltip-add">加入購物車</span>
+
     </div>
     <div v-if="authenticator?.currentMember?.id === sellerId" class="seller">
       <router-link :to="`/products/${product.id}/edit`">
@@ -93,7 +120,6 @@ async function handleOffShelf(productId) {
     width: 150px;
     height: 250px;
     background-color: var(--gray);
-    // border-radius: 15px;
     overflow: hidden;
     @extend %standard-boxshadow;
 
@@ -112,6 +138,8 @@ async function handleOffShelf(productId) {
       align-items: center;
 
       .product-image-center {
+        width: 100%;
+        height: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -169,10 +197,16 @@ async function handleOffShelf(productId) {
   height: 15%;
 }
 
-.seller {
+.seller,
+.buyer {
 
   .btn-edit-product {
     left: 20%;
+  }
+
+  .btn-add-product {
+    left: 50%;
+    transform: translate(-50%);
   }
 
   .tooltip {
@@ -190,6 +224,10 @@ async function handleOffShelf(productId) {
     font-weight: 500;
   }
 
+  .tooltip-add {
+    left: 28%;
+  }
+
   .tooltip-edit {
     left: 16%;
   }
@@ -198,6 +236,8 @@ async function handleOffShelf(productId) {
     right: 18%;
   }
 
+
+  .btn-add-product:hover~.tooltip-add,
   .btn-edit-product:hover~.tooltip,
   .btn-delete-product:hover~.tooltip {
     opacity: 1;

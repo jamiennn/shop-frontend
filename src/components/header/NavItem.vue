@@ -19,7 +19,7 @@ const wrapperClass = "nav-list d-flex flex-row"
     </li>
     <Logout />
   </div>
-  <div v-else-if="role === 'seller'" :class="wrapperClass">
+  <div v-else-if="user && role === 'seller'" :class="wrapperClass">
     <li class="create">
       <router-link class="nav-list-item" to="/products/new">
         create
@@ -39,7 +39,7 @@ const wrapperClass = "nav-list d-flex flex-row"
       </router-link>
     </li>
   </div>
-  <div class="nav-list-item">{{ user.account }}</div>
+  <div class="nav-list-item" v-if="user">{{ user.account }}</div>
 </template>
 
 <style lang="scss">

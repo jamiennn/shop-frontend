@@ -98,7 +98,10 @@ export const editProductApi = async (pid, form) => {
       }
     }
   } catch (e) {
-    console.error(e)
+    const { status, data } = e.response
+    if (status === 500) {
+      return { success: false, messages: data.messages }
+    }
   }
 }
 
