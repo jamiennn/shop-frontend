@@ -2,7 +2,6 @@ import axios from 'axios'
 import axiosInstanceHelper from '@/api/axiosInstance.js'
 
 const baseUrl = 'http://localhost:3001/api/products'
-const axiosInstance = await axiosInstanceHelper(baseUrl)
 
 export const searchProductApi = async (queryString) => {
   try {
@@ -47,6 +46,8 @@ export const searchOneProductApi = async (pid) => {
 
 export const createProductApi = async (form) => {
   try {
+    const axiosInstance = await axiosInstanceHelper(baseUrl)
+
     const formData = new FormData()
     formData.append('name', form.nameInput)
     formData.append('price', form.priceInput)
@@ -77,6 +78,8 @@ export const createProductApi = async (form) => {
 
 export const editProductApi = async (pid, form) => {
   try {
+    const axiosInstance = await axiosInstanceHelper(baseUrl)
+
     const formData = new FormData()
     formData.append('name', form.nameInput)
     formData.append('price', form.priceInput)
@@ -107,6 +110,8 @@ export const editProductApi = async (pid, form) => {
 
 export const patchProductApi = async (productId) => {
   try {
+    const axiosInstance = await axiosInstanceHelper(baseUrl)
+
     const response = await axiosInstance.post(`${baseUrl}/${productId}?_method=PATCH`)
 
     if (response.status === 200) {

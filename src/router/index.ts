@@ -3,7 +3,7 @@ import { watch } from 'vue'
 import LoginPage from '../views/LoginPage.vue'
 import HomePage from '../views/HomePage.vue'
 import CreateProductPage from '../views/CreateProductPage.vue'
-import Empty from '@/components/Empty.vue'
+// import Empty from '@/components/Empty.vue'
 import ProductDetail from '@/views/ProductDetail.vue'
 
 import { useAuthenticator } from '@/stores/authenticator';
@@ -115,11 +115,11 @@ const routes = [
       checkAuthBeforeEnter,
       checkRoleBeforeEnter]
   },
-  {
-    path: '/empty',
-    name: 'empty',
-    component: Empty
-  },
+  // {
+  //   path: '/empty',
+  //   name: 'empty',
+  //   component: Empty
+  // },
   {
     path: '/',
     name: 'HomePage',
