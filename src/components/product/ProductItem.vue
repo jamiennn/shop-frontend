@@ -212,7 +212,7 @@ const handleAddToCart = async (productId) => {
   .tooltip {
     opacity: 0;
     position: absolute;
-    top: 90px;
+    top: 100px;
 
     background-color: var(--dark-blue);
     border-radius: 6px;
@@ -225,15 +225,16 @@ const handleAddToCart = async (productId) => {
   }
 
   .tooltip-add {
+    top: 90px;
     left: 28%;
   }
 
   .tooltip-edit {
-    left: 16%;
+    left: 23%;
   }
 
   .tooltip-delete {
-    right: 18%;
+    right: 23%;
   }
 
 
