@@ -90,7 +90,7 @@ export const editProductApi = async (pid, form) => {
         'Content-Type': 'multipart/form-data'
       }
     })
-    console.log(response)
+
     if (response.status === 200) {
       return {
         success: true,
@@ -99,6 +99,24 @@ export const editProductApi = async (pid, form) => {
     }
   } catch (e) {
     console.error(e)
+  }
+}
+
+export const patchProductApi = async (productId) => {
+  try {
+    const response = await axiosInstance.post(`${baseUrl}/${productId}?_method=PATCH`)
+
+    if (response.status === 200) {
+      return {
+        success: true,
+        messages: response.data.data
+      }
+    }
+  } catch (e) {
+    const { status, data } = e.response
+    if (status === 500) {
+      return { success: false, messages: data.messages }
+    }
   }
 }
 

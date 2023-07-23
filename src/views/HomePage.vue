@@ -4,12 +4,23 @@ import { useRoute } from 'vue-router'
 import Header from '@/components/header/Header.vue'
 import ProductList from '@/components/product/ProductList.vue'
 import SideBar from '@/components/form/SideBar.vue'
+import { getUserApi } from '@/api/user.js'
 const route = useRoute()
-const uid = ref(Number(route.params.uid))
+const uid = ref()
+const sellerAccount = ref()
 
-watch(route, () => {
+watch(route, async () => {
   uid.value = Number(route.params.uid)
-})
+  if (uid.value) {
+
+    const data = await getUserApi(uid.value)
+    if (data.success) {
+      sellerAccount.value = data.messages.user.account
+    } else if (!data.success) {
+      console.error(data.messages)
+    }
+  }
+}, { immediate: true })
 
 </script>
 
@@ -20,7 +31,7 @@ watch(route, () => {
       <SideBar />
     </section>
     <section class="product-list">
-      <h1 v-if="uid">商品清單</h1>
+      <div class="seller-title" v-if="uid">{{ sellerAccount }}的商品</div>
       <ProductList :sellerId="uid" />
     </section>
   </main>
@@ -34,6 +45,11 @@ watch(route, () => {
 
 .side-bar {
   width: 20%;
+}
+
+.seller-title {
+  @extend %standard-title;
+  margin: 30px 40px;
 }
 
 .product-list {

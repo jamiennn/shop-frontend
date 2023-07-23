@@ -5,7 +5,7 @@ const queryStringStore = useQueryStringStore()
 
 defineProps<{
   role: string,
-  userId: number
+  user: object
 }>()
 const wrapperClass = "nav-list d-flex flex-row"
 </script>
@@ -26,7 +26,7 @@ const wrapperClass = "nav-list d-flex flex-row"
       </router-link>
     </li>
     <li class="product">
-      <a class="nav-list-item" :href="`/users/${userId}/products`" @click="queryStringStore.handleClearQueryExceptShop">
+      <a class="nav-list-item" :href="`/users/${user.id}/products`" @click="queryStringStore.handleClearQueryExceptShop">
         product
       </a>
     </li>
@@ -39,6 +39,7 @@ const wrapperClass = "nav-list d-flex flex-row"
       </router-link>
     </li>
   </div>
+  <div class="nav-list-item">{{ user.account }}</div>
 </template>
 
 <style lang="scss">

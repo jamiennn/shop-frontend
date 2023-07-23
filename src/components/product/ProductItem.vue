@@ -3,10 +3,14 @@ import { watch, reactive, ref } from 'vue'
 import Placeholder from '@/assets/images/MixerIcon-placeholder.vue'
 import Edit from '@/assets/images/Edit.vue'
 import Delete from '@/assets/images/Delete.vue'
+import { patchProductApi } from '@/api/product.js'
+import { errorToast, successToast } from '@/helper/toast.js'
+
 
 import { useQueryStringStore } from '@/stores/queryString'
 const queryStringStore = useQueryStringStore()
 import { useAuthenticator } from '@/stores/authenticator'
+import router from '@/router'
 const authenticator = useAuthenticator()
 
 const products = reactive({})
@@ -27,6 +31,18 @@ watch(queryStringStore, async () => {
 }, { immediate: true })
 
 
+// 下架功能
+async function handleOffShelf(productId) {
+  alert('確定要下架此商品嗎？')
+  const data = await patchProductApi(productId)
+  if (data.success) {
+    successToast('success', '下架成功')
+    router.replace({ path: '/empty' })
+  } else {
+    errorToast('error', data.messages)
+  }
+}
+
 </script>
 
 <template>
@@ -34,7 +50,7 @@ watch(queryStringStore, async () => {
     <router-link :to="`/products/${product.id}`">
       <div class="product-item-wrapper">
         <div class="product-image-wrapper">
-          <div v-if="product.image">
+          <div v-if="product.image" class="product-image-center">
             <img v-show="isLoaded" :src="product.image" :alt="product.name" class="product-image"
               @load="() => isLoaded = true">
             <Placeholder v-show="!isLoaded" class="product-image placeholder" />
@@ -59,7 +75,7 @@ watch(queryStringStore, async () => {
         <Edit class="btn-product btn-edit-product" id="btn-edit-product" />
         <span class="tooltip tooltip-edit">編輯</span>
       </router-link>
-      <Delete class="btn-product btn-delete-product" id="btn-delete-product" />
+      <Delete class="btn-product btn-delete-product" id="btn-delete-product" @click="() => handleOffShelf(product.id)" />
       <span class="tooltip tooltip-delete">下架</span>
     </div>
   </div>
@@ -94,6 +110,12 @@ watch(queryStringStore, async () => {
       display: flex;
       justify-content: center;
       align-items: center;
+
+      .product-image-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
 
       .product-image {
         width: 100%;

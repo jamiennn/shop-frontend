@@ -23,6 +23,25 @@ export const loginApi = async (account, password) => {
   }
 }
 
+export const getUserApi = async (userId) => {
+  try {
+    const response = await axios.get(`${baseUrl}/${userId}`)
+    const { data } = response
+
+    if (response.status === 200) {
+      return {
+        success: true,
+        messages: {
+          user: data.messages.user,
+        }
+      }
+    }
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+
 export const testTokenApi = async (authToken) => {
   try {
     const response = await axios.get(`${baseUrl}/test-token`, {

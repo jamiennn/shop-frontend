@@ -3,6 +3,7 @@ import { watch } from 'vue'
 import LoginPage from '../views/LoginPage.vue'
 import HomePage from '../views/HomePage.vue'
 import CreateProductPage from '../views/CreateProductPage.vue'
+import Empty from '@/components/Empty.vue'
 
 import { useAuthenticator } from '@/stores/authenticator';
 import { useQueryStringStore } from '@/stores/queryString'
@@ -104,6 +105,11 @@ const routes = [
     beforeEnter: [
       checkRoleBeforeEnter,
       checkSellerAuth]
+  },
+  {
+    path: '/empty',
+    name: 'empty',
+    component: Empty
   },
   {
     path: '/',

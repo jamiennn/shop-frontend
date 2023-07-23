@@ -6,7 +6,7 @@ const authenticator = useAuthenticator()
 </script>
 <template>
   <ul class="nav-list-wrapper">
-    <NavItem :role="authenticator.role" :userId="authenticator?.currentMember?.id" />
+    <NavItem :role="authenticator.role" :user="authenticator?.currentMember" />
   </ul>
 </template>
 
