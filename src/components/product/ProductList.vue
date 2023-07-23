@@ -13,10 +13,13 @@ watch(queryStringStore, async () => {
   productListKey.value = queryStringStore.getProductListKey()
 }, { immediate: true })
 
+defineProps<{
+  sellerId: number
+}>()
 </script>
 <template>
   <div class="product-list-wrapper" id="product-list-wrapper" :key="productListKey">
-    <ProductItem />
+    <ProductItem :sellerId="sellerId" />
   </div>
   <Paginator />
 </template>
@@ -24,9 +27,10 @@ watch(queryStringStore, async () => {
 <style scoped lang="scss">
 .product-list-wrapper {
   margin: 20px;
+  padding: 10px;
   display: grid;
   grid-template-columns: repeat(auto-fill, 150px);
-  grid-gap: 5px;
+  grid-gap: 10px;
   justify-content: space-evenly;
 }
 </style>

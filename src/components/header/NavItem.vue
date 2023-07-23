@@ -26,10 +26,9 @@ const wrapperClass = "nav-list d-flex flex-row"
       </router-link>
     </li>
     <li class="product">
-      <router-link class="nav-list-item" :to="`/users/${userId}/products`"
-        @click="queryStringStore.handleClearQueryExceptShop">
+      <a class="nav-list-item" :href="`/users/${userId}/products`" @click="queryStringStore.handleClearQueryExceptShop">
         product
-      </router-link>
+      </a>
     </li>
     <Logout />
   </div>

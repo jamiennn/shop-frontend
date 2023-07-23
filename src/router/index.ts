@@ -98,6 +98,14 @@ const routes = [
       checkSellerAuth]
   },
   {
+    path: '/products/:pid/edit',
+    name: 'edit',
+    component: CreateProductPage,
+    beforeEnter: [
+      checkRoleBeforeEnter,
+      checkSellerAuth]
+  },
+  {
     path: '/',
     name: 'HomePage',
     component: HomePage,

@@ -7,7 +7,7 @@ defineProps<{
   nameCn: string,
   type: string,
   modelValue: string,
-  customClass: string
+  imageInput: string
 }>()
 
 let status = inject('status')
@@ -35,8 +35,8 @@ const handleLoad = (e) => {
     </div>
     <span class="form-label">圖片預覽：</span>
     <div class="product-image-wrapper">
-      <Placeholder v-show="!previewImage" class="product-image placeholder" />
-      <img v-show="previewImage" :src="previewImage" class="product-image " />
+      <Placeholder v-show="!previewImage && !imageInput" class="product-image placeholder" />
+      <img v-show="previewImage || imageInput" :src="previewImage || imageInput" class="product-image " />
     </div>
   </div>
 </template>

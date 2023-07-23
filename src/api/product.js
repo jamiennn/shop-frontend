@@ -26,6 +26,25 @@ export const searchProductApi = async (queryString) => {
     }
   }
 }
+
+export const searchOneProductApi = async (pid) => {
+  try {
+    const response = await axios.get(`${baseUrl}/${pid}`)
+
+    if (response.status === 200) {
+      return {
+        success: true,
+        messages: response.data.data
+      }
+    }
+  } catch (e) {
+    const { status, data } = e.response
+    if (status === 500) {
+      return { success: false, messages: data.messages }
+    }
+  }
+}
+
 export const createProductApi = async (form) => {
   try {
     const formData = new FormData()
@@ -53,6 +72,33 @@ export const createProductApi = async (form) => {
     if (status === 500) {
       return { success: false, messages: data.messages }
     }
+  }
+}
+
+export const editProductApi = async (pid, form) => {
+  try {
+    const formData = new FormData()
+    formData.append('name', form.nameInput)
+    formData.append('price', form.priceInput)
+    formData.append('description', form.descriptionInput)
+    formData.append('image', form.imageInput)
+    formData.append('stock', form.stockInput)
+    formData.append('categoryId', form.categoryInput)
+
+    const response = await axiosInstance.post(`${baseUrl}/${pid}?_method=PUT`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    console.log(response)
+    if (response.status === 200) {
+      return {
+        success: true,
+        messages: response.status
+      }
+    }
+  } catch (e) {
+    console.error(e)
   }
 }
 

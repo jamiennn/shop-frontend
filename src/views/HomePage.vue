@@ -5,10 +5,10 @@ import Header from '@/components/header/Header.vue'
 import ProductList from '@/components/product/ProductList.vue'
 import SideBar from '@/components/form/SideBar.vue'
 const route = useRoute()
-const uid = ref(route.params.uid)
+const uid = ref(Number(route.params.uid))
 
 watch(route, () => {
-  uid.value = route.params.uid
+  uid.value = Number(route.params.uid)
 })
 
 </script>
@@ -21,7 +21,7 @@ watch(route, () => {
     </section>
     <section class="product-list">
       <h1 v-if="uid">商品清單</h1>
-      <ProductList />
+      <ProductList :sellerId="uid" />
     </section>
   </main>
 </template>

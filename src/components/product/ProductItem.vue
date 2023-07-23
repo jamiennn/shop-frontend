@@ -1,10 +1,21 @@
 <script setup lang="ts">
 import { watch, reactive, ref } from 'vue'
 import Placeholder from '@/assets/images/MixerIcon-placeholder.vue'
+import Edit from '@/assets/images/Edit.vue'
+import Delete from '@/assets/images/Delete.vue'
+
 import { useQueryStringStore } from '@/stores/queryString'
 const queryStringStore = useQueryStringStore()
+import { useAuthenticator } from '@/stores/authenticator'
+const authenticator = useAuthenticator()
+
 const products = reactive({})
 const isLoaded = ref(false)
+const role = authenticator.role
+
+defineProps<{
+  sellerId: number
+}>()
 
 // 監控 query string store，更新 products
 watch(queryStringStore, async () => {
@@ -15,37 +26,49 @@ watch(queryStringStore, async () => {
   Object.assign(products, newProducts)
 }, { immediate: true })
 
+
 </script>
 
 <template>
-  <router-link v-for="(product, i) in products" :key="i" :to="`/products/${product.id}`" class="product-item-link">
-
-    <div class="product-item-wrapper">
-      <div class="product-image-wrapper">
-        <div v-if="product.image">
-          <img v-show="isLoaded" :src="product.image" :alt="product.name" class="product-image"
-            @load="() => isLoaded = true">
-          <Placeholder v-show="!isLoaded" class="product-image placeholder" />
+  <div v-for="(product, i) in products" :key="i" class="product-item-link">
+    <router-link :to="`/products/${product.id}`">
+      <div class="product-item-wrapper">
+        <div class="product-image-wrapper">
+          <div v-if="product.image">
+            <img v-show="isLoaded" :src="product.image" :alt="product.name" class="product-image"
+              @load="() => isLoaded = true">
+            <Placeholder v-show="!isLoaded" class="product-image placeholder" />
+          </div>
+          <Placeholder v-if="!product.image" class="product-image placeholder" />
         </div>
-        <Placeholder v-if="!product.image" class="product-image placeholder" />
+        <div class="product-name">
+          {{ product.name }}
+        </div>
+        <div class="product-price">${{ product.price }}</div>
       </div>
-      <div class="product-name">
-        {{ product.name }}
-      </div>
-      <div class="product-price">${{ product.price }}</div>
-    </div>
+    </router-link>
 
-    <button class="btn-add-product" id="btn-add-product">
-      cart
-    </button>
-  </router-link>
+    <!-- 按鈕部分 -->
+    <div v-if="role === 'buyer'" class="buyer">
+      <button class="btn-product" id="btn-add-product">
+        cart
+      </button>
+    </div>
+    <div v-if="authenticator?.currentMember?.id === sellerId" class="seller">
+      <router-link :to="`/products/${product.id}/edit`">
+        <Edit class="btn-product btn-edit-product" id="btn-edit-product" />
+        <span class="tooltip tooltip-edit">編輯</span>
+      </router-link>
+      <Delete class="btn-product btn-delete-product" id="btn-delete-product" />
+      <span class="tooltip tooltip-delete">下架</span>
+    </div>
+  </div>
 </template>
 
 <style scoped lang="scss">
 .product-item-link {
   display: block;
   position: relative;
-  margin: 8px 4px;
 
   color: black;
   width: 150px;
@@ -59,10 +82,10 @@ watch(queryStringStore, async () => {
     @extend %standard-boxshadow;
 
     &:hover {
-      opacity: .6;
+      opacity: .4;
       box-shadow: 3px 0 13px 0 var(--dark-blue, 0.1);
+      transition: all .4s ease-out;
     }
-
 
     .product-image-wrapper {
       position: relative;
@@ -81,10 +104,7 @@ watch(queryStringStore, async () => {
       .placeholder {
         width: 20%;
         height: 20%;
-
       }
-
-
     }
 
     .product-name,
@@ -118,22 +138,65 @@ watch(queryStringStore, async () => {
 
 }
 
-.btn-add-product {
+// 按鈕部分
+.btn-product {
   display: none;
   position: absolute;
-  top: 25%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 20%;
+  width: 15%;
+  height: 15%;
 }
 
-.product-item-link:hover>#btn-add-product {
+.seller {
+
+  .btn-edit-product {
+    left: 20%;
+  }
+
+  .tooltip {
+    opacity: 0;
+    position: absolute;
+    top: 90px;
+
+    background-color: var(--dark-blue);
+    border-radius: 6px;
+    padding: 3px 3px;
+
+    color: #fff;
+    text-align: center;
+    font-size: 5px;
+    font-weight: 500;
+  }
+
+  .tooltip-edit {
+    left: 16%;
+  }
+
+  .tooltip-delete {
+    right: 18%;
+  }
+
+  .btn-edit-product:hover~.tooltip,
+  .btn-delete-product:hover~.tooltip {
+    opacity: 1;
+    transition: all .4s ease-out;
+  }
+
+  .btn-delete-product {
+    right: 20%;
+  }
+}
+
+.product-item-link:hover #btn-add-product,
+.product-item-link:hover #btn-edit-product,
+.product-item-link:hover #btn-delete-product {
   display: block;
-  background-color: red;
   cursor: pointer;
 }
 
-.product-item-wrapper:has(~ #btn-add-product:hover) {
-  opacity: .6;
+.product-item-link:has(>.seller:hover) .product-item-wrapper,
+.product-item-link:has(>.buyer:hover) .product-item-wrapper {
+  opacity: .4;
   box-shadow: 3px 0 13px 0 var(--dark-blue, 0.1);
 }
 </style>

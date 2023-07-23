@@ -7,6 +7,7 @@ defineProps<{
   name: string,
   nameCn: string,
   modelValue: string,
+  categoryInput: number
 }>()
 const emit = defineEmits(['update:modelValue'])
 const categories = ref()
@@ -31,7 +32,8 @@ function handleSelect(e) {
   <label :for="name" class="form-label">{{ nameCn }}：</label>
   <select class="form-select" :id="name" @change="handleSelect">
     <option disabled selected>選擇{{ nameCn }}</option>
-    <option v-for="(category, index) in categories" :key="index" :value="category.id" :disabled="status === 'submitting'">
+    <option v-for="(category, index) in categories" :key="index" :value="category.id" :disabled="status === 'submitting'"
+      :selected="category.id === categoryInput">
       {{ category.name }}</option>
   </select>
 </template>
