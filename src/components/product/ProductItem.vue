@@ -66,7 +66,7 @@ const handleAddToCart = async (productId) => {
       'success',
       `加入購物車成功`
     )
-    router.push(`/carts/${authenticator.currentMember.id}`)
+    // router.push(`/carts/${authenticator.currentMember.id}`)
   }
 }
 

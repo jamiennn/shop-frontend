@@ -83,3 +83,24 @@ export const deleteCartApi = async (cartId) => {
     }
   }
 }
+
+export const checkOutCartApi = async () => {
+  try {
+    const axiosInstance = await axiosInstanceHelper(baseUrl)
+    const response = await axiosInstance.post(`${baseUrl}/checkout`)
+
+    if (response.status === 200) {
+      return {
+        success: true,
+        messages: {
+          orders: response.data.data
+        }
+      }
+    }
+  } catch (e) {
+    const { status, data } = e.response
+    if (status === 500) {
+      return { success: false, messages: data.messages }
+    }
+  }
+}

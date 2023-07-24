@@ -4,6 +4,7 @@ import LoginPage from '../views/LoginPage.vue'
 import HomePage from '../views/HomePage.vue'
 import CreateProductPage from '../views/CreateProductPage.vue'
 import CartPage from '@/views/CartPage.vue'
+import OrderPage from '@/views/OrderPage.vue'
 import ProductDetail from '@/views/ProductDetail.vue'
 
 import { useAuthenticator } from '@/stores/authenticator';
@@ -127,6 +128,14 @@ const routes = [
     beforeEnter: [
       checkAuthBeforeEnter,
       checkRoleBeforeEnter]
+  },
+  {
+    path: '/orders/:oid/checkout',
+    name: 'OrderPage',
+    component: OrderPage,
+    beforeEnter: [
+      checkRoleBeforeEnter,
+      checkAuthBeforeEnter]
   },
   {
     path: '/carts/:uid',

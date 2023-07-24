@@ -1,8 +1,8 @@
 import { ref, reactive } from 'vue'
 import { defineStore } from 'pinia'
-import { getCartApi, editCartApi } from '@/api/cart.js'
+import { getCartApi, editCartApi, checkOutCartApi } from '@/api/cart.js'
 import Swal from 'sweetalert2'
-import { errorToast, successToast } from '@/helper/toast.js'
+import { errorToast } from '@/helper/toast.js'
 import router from '@/router'
 import { useAuthenticator } from '@/stores/authenticator'
 
@@ -12,12 +12,6 @@ export const useCartStore = defineStore('cartStore', () => {
   const cartItems = reactive([])
   const status = ref('')
   const total = ref(0)
-
-  // // 用於 re-render cart 
-  // const cartListKey = ref(0)
-  // function getCartListKey() {
-  //   return `cart-list-wrapper-${cartListKey.value}`
-  // }
 
 
   // 小計
@@ -59,6 +53,7 @@ export const useCartStore = defineStore('cartStore', () => {
   // 加購物車品項
   async function handleAddAmount(index) {
     cartItems[index].amount += 1
+    handleEditCart(index)
     changeSubtotal(index)
     getTotal()
   }
@@ -66,30 +61,44 @@ export const useCartStore = defineStore('cartStore', () => {
   // 減購物車品項
   async function handleMinusAmount(index) {
     cartItems[index].amount -= 1
+    handleEditCart(index)
     changeSubtotal(index)
     getTotal()
   }
 
 
-  // checkout 購物車，修改購物車內容
-  const handleCheckoutCart = async () => {
+  // 修改購物車內容
+  const handleEditCart = async (index) => {
 
     status.value = 'submitting'
-    Swal.showLoading()
 
-    cartItems.forEach(async c => {
-      const editedCart = await editCartApi(c.id, c.amount)
-      if (!editedCart.success) {
-        errorToast(
-          'error',
-          editedCart.messages
-        )
-        return router.push(`/carts/${authenticator.currentMember.id}`)
-      }
-    })
+    const editedCart = await editCartApi(cartItems[index].id, cartItems[index].amount)
+    if (!editedCart.success) {
+      errorToast(
+        'error',
+        editedCart.messages
+      )
+      return router.push(`/carts/${authenticator.currentMember.id}`)
+    }
+    return status.value = 'typing'
+  }
+
+  // checkout 購物車
+  const handleCheckoutCart = async () => {
+    status.value = 'submitting'
+    Swal.showLoading()
+    const response = await checkOutCartApi()
+
+    if (!response.success) {
+      errorToast(
+        'error',
+        response.messages
+      )
+      return router.push(`/carts/${authenticator.currentMember.id}`)
+    }
 
     Swal.fire('請確認您的訂單後前往結帳')
-    router.push(`/carts/${authenticator.currentMember.id}/confirm`)
+    router.push(`/orders/${response.messages.orders.order.id}/checkout`)
   }
 
   return {

@@ -16,7 +16,7 @@ const CartStore = useCartStore()
     </section>
     <section class="cart-list-check cart-container">
       <p class="total">總計： $ {{ CartStore.total }}</p>
-      <button class="btn-submit-cart" @click="CartStore.handleCheckoutCart"
+      <button v-if="CartStore.cartItems.length" class="btn-submit-cart" @click="CartStore.handleCheckoutCart"
         :disabled="CartStore.status === 'submitting'">去下單</button>
     </section>
   </main>
