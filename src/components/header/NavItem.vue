@@ -2,6 +2,7 @@
 import Logout from '@/components/button/Logout.vue'
 import { useQueryStringStore } from '@/stores/queryString'
 const queryStringStore = useQueryStringStore()
+import router from '@/router';
 
 defineProps<{
   role: string,
@@ -26,9 +27,17 @@ const wrapperClass = "nav-list d-flex flex-row"
       </router-link>
     </li>
     <li class="product">
-      <a class="nav-list-item" :href="`/users/${user.id}/products`" @click="queryStringStore.handleClearQueryExceptShop">
+      <router-link class="nav-list-item" :to="`/users/${user.id}/products`" @click="() => {
+        // 清除搜尋條件
+        queryStringStore.handleClearAll()
+        // 重新提供shopId
+
+        queryStringStore.shopId = user.id
+        // 強制 re-render
+        router.push(`/users/${user.id}/products`)
+      }">
         product
-      </a>
+      </router-link>
     </li>
     <Logout />
   </div>

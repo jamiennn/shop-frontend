@@ -125,13 +125,15 @@ const inputInvalid = computed(() => {
 
         <!-- seller -->
         <div v-if="product.User.id === authenticator.currentMember.id" class="seller">
-          <router-link :to="`/products/${product.id}/edit`">
-            <Edit class="btn-product" />
-            <span class="tooltip">編輯</span>
-          </router-link>
-          <div style="cursor: pointer" @click="() => handleOffShelf(product.id)">
-            <Delete class="btn-product" />
-            <span class="tooltip">下架</span>
+          <div class="seller-button-wrapper">
+            <router-link :to="`/products/${product.id}/edit`">
+              <Edit class="btn-product" />
+              <span class="button-label">編輯</span>
+            </router-link>
+            <div style="cursor: pointer" @click="() => handleOffShelf(product.id)">
+              <Delete class="btn-product" />
+              <span class="button-label">下架</span>
+            </div>
           </div>
         </div>
 
@@ -278,9 +280,13 @@ const inputInvalid = computed(() => {
 // 按鈕部分
 
 .seller {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  margin-top: 20px;
+
+  .seller-button-wrapper {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 20px;
+  }
 
   .btn-product {
     margin: 20px 10px 10px 10px;
@@ -289,14 +295,16 @@ const inputInvalid = computed(() => {
     cursor: pointer;
   }
 
-  .tooltip {
-    background-color: var(--dark-blue);
-    border-radius: 6px;
+  .button-label {
+    position: absolute;
+    top: 15px;
     padding: 3px 3px;
+    border-radius: 6px;
 
+    background-color: var(--dark-blue);
     color: #fff;
     text-align: center;
-    font-size: 5px;
+    font-size: 14px;
     font-weight: 500;
   }
 }
