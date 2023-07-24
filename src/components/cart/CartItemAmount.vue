@@ -10,7 +10,6 @@ const props = defineProps<{
 import { useCartStore } from '@/stores/cart'
 const CartStore = useCartStore()
 const cartItem = CartStore.cartItems[props.index]
-const status = CartStore.status
 
 </script>
 <template>
@@ -18,7 +17,7 @@ const status = CartStore.status
 
     <!-- 加號 -->
     <button class="btn-wrapper" @click="() => CartStore.handleAddAmount(index)"
-      :disabled="cartItem.amount === cartItem.Product.stock || status === 'submitting'">
+      :disabled="cartItem.amount === cartItem.Product.stock || CartStore.status === 'submitting'">
       <Plus class="btn-plus" />
     </button>
 
@@ -26,8 +25,8 @@ const status = CartStore.status
     <div class="product-amount">{{ CartStore.cartItems[props.index].amount }}</div>
 
     <!-- 減號 -->
-    <button @click="() => CartStore.handleMinusAmount(index)" :disabled="cartItem.amount === 1 || status === 'submitting'"
-      class="btn-wrapper">
+    <button @click="() => CartStore.handleMinusAmount(index)"
+      :disabled="cartItem.amount === 1 || CartStore.status === 'submitting'" class="btn-wrapper">
       <Minus class="btn-minus" />
     </button>
     <div class="product-stock">庫存：{{ cartItem.Product.stock }}</div>

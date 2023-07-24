@@ -1,12 +1,14 @@
 import { ref, reactive } from 'vue'
 import { defineStore } from 'pinia'
-import { getCartApi } from '@/api/cart.js'
-
-import { errorToast } from '@/helper/toast.js'
+import { getCartApi, editCartApi } from '@/api/cart.js'
+import Swal from 'sweetalert2'
+import { errorToast, successToast } from '@/helper/toast.js'
 import router from '@/router'
+import { useAuthenticator } from '@/stores/authenticator'
+
 
 export const useCartStore = defineStore('cartStore', () => {
-
+  const authenticator = useAuthenticator()
   const cartItems = reactive([])
   const status = ref('')
   const total = ref(0)
@@ -18,10 +20,12 @@ export const useCartStore = defineStore('cartStore', () => {
   // }
 
 
+  // 小計
   function changeSubtotal(i) {
     cartItems[i].subtotal = cartItems[i].amount * cartItems[i].Product?.price
   }
 
+  // 總計
   function getTotal() {
     total.value = 0
     for (const i in cartItems) {
@@ -31,6 +35,7 @@ export const useCartStore = defineStore('cartStore', () => {
     }
   }
 
+  // 取得購物車資料
   async function getCart() {
 
     // 清空陣列資料
@@ -51,49 +56,50 @@ export const useCartStore = defineStore('cartStore', () => {
     }
   }
 
+  // 加購物車品項
   async function handleAddAmount(index) {
-    // status.value = 'submitting'
     cartItems[index].amount += 1
     changeSubtotal(index)
     getTotal()
   }
 
+  // 減購物車品項
   async function handleMinusAmount(index) {
-    // status.value = 'submitting'
     cartItems[index].amount -= 1
     changeSubtotal(index)
     getTotal()
   }
 
 
+  // checkout 購物車，修改購物車內容
+  const handleCheckoutCart = async () => {
 
-  // 加入購物車功能
-  const handleAddToCart = async (productId) => {
-
+    status.value = 'submitting'
     Swal.showLoading()
-    const response = await createCartApi(productId, 1)
 
-    if (!response.success) {
-      errorToast(
-        'error',
-        response.messages
-      )
-    } else {
-      successToast(
-        'success',
-        `加入購物車成功`
-      )
-      router.push(`/carts/${authenticator.currentMember.id}`)
-    }
+    cartItems.forEach(async c => {
+      const editedCart = await editCartApi(c.id, c.amount)
+      if (!editedCart.success) {
+        errorToast(
+          'error',
+          editedCart.messages
+        )
+        return router.push(`/carts/${authenticator.currentMember.id}`)
+      }
+    })
+
+    Swal.fire('請確認您的訂單後前往結帳')
+    router.push(`/carts/${authenticator.currentMember.id}/confirm`)
   }
 
   return {
     cartItems,
+    status,
     getCart,
     handleAddAmount,
     handleMinusAmount,
     total,
     getTotal,
-    // getCartListKey
+    handleCheckoutCart
   }
 })

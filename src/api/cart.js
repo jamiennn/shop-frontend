@@ -23,6 +23,26 @@ export const createCartApi = async (productId, amount) => {
   }
 }
 
+export const editCartApi = async (cartId, amount) => {
+  try {
+    const axiosInstance = await axiosInstanceHelper(baseUrl)
+    const form = { amount }
+    const response = await axiosInstance.post(`${baseUrl}/${cartId}?_method=PUT`, form)
+
+    if (response.status === 200) {
+      return {
+        success: true,
+        messages: response.data.data.newCartItem
+      }
+    }
+  } catch (e) {
+    const { status, data } = e.response
+    if (status === 500) {
+      return { success: false, messages: data.messages }
+    }
+  }
+}
+
 export const getCartApi = async () => {
   try {
     const axiosInstance = await axiosInstanceHelper(baseUrl)

@@ -16,7 +16,8 @@ const CartStore = useCartStore()
     </section>
     <section class="cart-list-check cart-container">
       <p class="total">總計： $ {{ CartStore.total }}</p>
-      <button class="btn-submit-cart">去下單</button>
+      <button class="btn-submit-cart" @click="CartStore.handleCheckoutCart"
+        :disabled="CartStore.status === 'submitting'">去下單</button>
     </section>
   </main>
 </template>
@@ -67,6 +68,11 @@ const CartStore = useCartStore()
     background-color: var(--dark-blue);
     font-size: 16px;
     font-weight: 500;
+
+    &:disabled {
+      background-color: var(--light-blue);
+      cursor: not-allowed;
+    }
   }
 }
 </style>
