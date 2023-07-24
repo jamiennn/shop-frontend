@@ -3,7 +3,7 @@ import { watch } from 'vue'
 import LoginPage from '../views/LoginPage.vue'
 import HomePage from '../views/HomePage.vue'
 import CreateProductPage from '../views/CreateProductPage.vue'
-// import Empty from '@/components/Empty.vue'
+import CartPage from '@/views/CartPage.vue'
 import ProductDetail from '@/views/ProductDetail.vue'
 
 import { useAuthenticator } from '@/stores/authenticator';
@@ -38,6 +38,19 @@ const checkRoleBeforeEnter = async () => {
 const checkSellerAuth = () => {
   const authenticator = useAuthenticator()
   if (authenticator.role !== 'seller') {
+    errorToast(
+      'error',
+      'Unauthorized'
+    )
+    router.push('/')
+  }
+}
+
+// 檢查是否為買家
+const checkCartAuth = (route) => {
+  const authenticator = useAuthenticator()
+  const userId = Number(route.params.uid)
+  if (authenticator.currentMember.id !== userId) {
     errorToast(
       'error',
       'Unauthorized'
@@ -115,11 +128,14 @@ const routes = [
       checkAuthBeforeEnter,
       checkRoleBeforeEnter]
   },
-  // {
-  //   path: '/empty',
-  //   name: 'empty',
-  //   component: Empty
-  // },
+  {
+    path: '/carts/:uid',
+    name: 'CartPage',
+    component: CartPage,
+    beforeEnter: [
+      checkRoleBeforeEnter,
+      checkCartAuth]
+  },
   {
     path: '/',
     name: 'HomePage',

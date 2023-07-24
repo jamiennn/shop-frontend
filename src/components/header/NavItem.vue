@@ -14,7 +14,7 @@ const wrapperClass = "nav-list d-flex flex-row"
 <template>
   <div v-if="role === 'buyer'" :class="wrapperClass">
     <li class="cart">
-      <router-link class="nav-list-item" to="/cart/:uid">
+      <router-link class="nav-list-item" :to="`/carts/${user.id}`">
         cart
       </router-link>
     </li>

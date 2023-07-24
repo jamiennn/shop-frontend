@@ -1,8 +1,6 @@
-import axios from 'axios'
 import axiosInstanceHelper from '@/api/axiosInstance.js'
 
 const baseUrl = 'http://localhost:3001/api/carts'
-
 
 
 export const createCartApi = async (productId, amount) => {
@@ -25,4 +23,43 @@ export const createCartApi = async (productId, amount) => {
   }
 }
 
+export const getCartApi = async () => {
+  try {
+    const axiosInstance = await axiosInstanceHelper(baseUrl)
+    const response = await axiosInstance.get(`${baseUrl}`)
 
+    if (response.status === 200) {
+      return {
+        success: true,
+        messages: {
+          carts: response.data.data.cartItems,
+        }
+      }
+    }
+  } catch (e) {
+    const { status, data } = e.response
+    if (status === 500) {
+      return { success: false, messages: data.messages }
+    }
+  }
+}
+
+export const deleteCartApi = async (cartId) => {
+  try {
+    const axiosInstance = await axiosInstanceHelper(baseUrl)
+
+    const response = await axiosInstance.post(`${baseUrl}/${cartId}?_method=DELETE`)
+
+    if (response.status === 200) {
+      return {
+        success: true,
+        messages: response.data.data
+      }
+    }
+  } catch (e) {
+    const { status, data } = e.response
+    if (status === 500) {
+      return { success: false, messages: data.messages }
+    }
+  }
+}
