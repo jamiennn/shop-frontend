@@ -33,7 +33,7 @@ npm install
 ```
 
 ## 開發環境
-1. 設定 .env 檔案的後端 API URL
+1. 設定 .env 檔案的後端 API URL  
 請取名為 .env.development
 ```
 <!-- 等號後面請放上您的本地後端 API URL -->
@@ -45,7 +45,7 @@ npm run dev
 ```
 
 ## 正式環境
-1. 設定 .env 檔案的後端 API URL
+1. 設定 .env 檔案的後端 API URL  
 請取名為 .env.production
 ```
 <!-- 等號後面請放上您正式部署的後端 API URL -->

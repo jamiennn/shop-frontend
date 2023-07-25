@@ -61,7 +61,7 @@ const wrapperClass = "nav-list d-flex flex-row"
 .nav-list {
   height: 100%;
   width: 120px;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center
 }
 

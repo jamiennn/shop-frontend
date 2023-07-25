@@ -225,7 +225,7 @@ const inputInvalid = computed(() => {
         margin-top: 20px;
         font-size: 20px;
         font-weight: 500;
-        color: var(--danger);
+        // color: var(--danger);
       }
 
       .product-btn-wrapper {

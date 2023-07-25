@@ -36,6 +36,7 @@ async function handleInputAmount(e) {
       <Plus class="btn-plus" />
     </button>
     <div class="product-stock">庫存：{{ product.stock }}</div>
+    <div class="product-subtotal">小計：{{ amount ? amount * product.price : 0 }}</div>
   </div>
 </template>
 
@@ -82,5 +83,13 @@ async function handleInputAmount(e) {
 
 .product-stock {
   margin-top: 20px;
+}
+
+.product-subtotal {
+  margin: 20px;
+  font-size: 20px;
+  font-weight: 500;
+  text-align: end;
+  color: var(--danger);
 }
 </style>
