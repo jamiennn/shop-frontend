@@ -32,6 +32,7 @@ jobs:
           git config --global user.email $user_email
           git remote set-url origin https://git:${github_token}@github.com/${repository}.git
           npm run build
+          cp dist/index.html dist/404.html
           npx gh-pages -d dist -u "github-actions-bot <support+actions@github.com>"
 
         env:

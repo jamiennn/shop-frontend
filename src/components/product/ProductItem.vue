@@ -19,7 +19,7 @@ import router from '@/router'
 const authenticator = useAuthenticator()
 
 const products = reactive({})
-const isLoaded = ref(false)
+
 const role = authenticator.role
 
 defineProps<{
@@ -30,7 +30,10 @@ defineProps<{
 watch(queryStringStore, async () => {
   const data = await queryStringStore.handleHomePage()
   const newProducts = data?.products
-  for (let p in products) delete products[p]
+  for (let p in products) {
+    delete products[p]
+    products[p].isLoaded = false
+  }
 
   Object.assign(products, newProducts)
 }, { immediate: true })
@@ -78,9 +81,9 @@ const handleAddToCart = async (productId) => {
       <div class="product-item-wrapper">
         <div class="product-image-wrapper">
           <div v-if="product.image" class="product-image-center">
-            <img v-show="isLoaded" :src="product.image" :alt="product.name" class="product-image"
-              @load="() => isLoaded = true">
-            <Placeholder v-show="!isLoaded" class="product-image placeholder" />
+            <img v-show="product.isLoaded" :src="product.image" :alt="product.name" class="product-image"
+              @load="() => product.isLoaded = true">
+            <Placeholder v-show="!product.isLoaded" class="product-image placeholder" />
           </div>
           <Placeholder v-if="!product.image" class="product-image placeholder" />
         </div>
