@@ -2,7 +2,14 @@
 
 ## 介紹
 這是一個前後端分離的線上購物網站雛形，本專案為前端頁面，使用 Vue3 架構，提供簡單清楚的購物前端介面。
-![image](https://github.com/jamiennn/shop-frontend/tree/master/src/assets/snapshots/home_demo.gif)
+
+<br>
+<br>
+
+![image](https://github.com/jamiennn/shop-frontend/blob/master/src/assets/snapshots/home_demo.gif)
+
+<br>
+<br>
 
 
 備註1：完成前端設置後，需要再完成後端 API 串接，才能使用完整的功能
