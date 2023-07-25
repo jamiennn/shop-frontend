@@ -1,6 +1,6 @@
 import axiosInstanceHelper from '@/api/axiosInstance.js'
 
-const baseUrl = 'http://localhost:3001/api/carts'
+const baseUrl = `${import.meta.env.VITE_API_URL}/carts`
 
 
 export const createCartApi = async (productId, amount) => {

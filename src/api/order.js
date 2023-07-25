@@ -1,6 +1,6 @@
 import axiosInstanceHelper from '@/api/axiosInstance.js'
 
-const baseUrl = 'http://localhost:3001/api/orders'
+const baseUrl = `${import.meta.env.VITE_API_URL}/orders`
 
 
 export const getOrderApi = async (orderId) => {

@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = 'http://localhost:3001/api/users'
+const baseUrl = `${import.meta.env.VITE_API_URL}/users`
 
 export const loginApi = async (account, password) => {
   try {

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import axiosInstanceHelper from '@/api/axiosInstance.js'
 
-const baseUrl = 'http://localhost:3001/api/products'
+const baseUrl = `${import.meta.env.VITE_API_URL}/products`
 
 export const searchProductApi = async (queryString) => {
   try {
