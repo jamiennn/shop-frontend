@@ -6,7 +6,7 @@ defineProps<{
 }>()
 // icons and pages
 import Placeholder from '@/assets/images/MixerIcon-placeholder.vue'
-import orderItemAmount from '@/components/order/orderItemAmount.vue'
+import orderItemAmount from '@/components/order/OrderItemAmount.vue'
 
 const isLoaded = ref(false)
 
