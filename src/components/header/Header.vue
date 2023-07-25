@@ -7,7 +7,8 @@ import { useQueryStringStore } from '@/stores/queryString'
 const queryStringStore = useQueryStringStore()
 
 defineProps<{
-  searchbar: boolean
+  searchbar: boolean,
+  userId: number
 }>()
 </script>
 
@@ -21,7 +22,7 @@ defineProps<{
             <h5 class="nav-name">Shop</h5>
           </div>
         </router-link>
-        <NavSearch v-if="searchbar" />
+        <NavSearch v-if="searchbar" :userId="userId" />
         <NavList />
       </div>
     </div>

@@ -26,7 +26,7 @@ watch(route, async () => {
 </script>
 
 <template>
-  <Header :searchbar="true" />
+  <Header :searchbar="true" :userId="uid" />
   <main class="container">
     <section class="side-bar">
       <SideBar />

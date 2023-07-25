@@ -19,8 +19,7 @@ import router from '@/router'
 const authenticator = useAuthenticator()
 
 const products = reactive({})
-
-const role = authenticator.role
+const isLoaded = reactive([])
 
 defineProps<{
   sellerId: number
@@ -28,11 +27,14 @@ defineProps<{
 
 // 監控 query string store，更新 products
 watch(queryStringStore, async () => {
+
   const data = await queryStringStore.handleHomePage()
   const newProducts = data?.products
+
+  Object.assign(isLoaded, Array.from({ length: newProducts }, l => false))
+
   for (let p in products) {
     delete products[p]
-    products[p].isLoaded = false
   }
 
   Object.assign(products, newProducts)
@@ -69,7 +71,6 @@ const handleAddToCart = async (productId) => {
       'success',
       `加入購物車成功`
     )
-    // router.push(`/carts/${authenticator.currentMember.id}`)
   }
 }
 
@@ -81,9 +82,9 @@ const handleAddToCart = async (productId) => {
       <div class="product-item-wrapper">
         <div class="product-image-wrapper">
           <div v-if="product.image" class="product-image-center">
-            <img v-show="product.isLoaded" :src="product.image" :alt="product.name" class="product-image"
-              @load="() => product.isLoaded = true">
-            <Placeholder v-show="!product.isLoaded" class="product-image placeholder" />
+            <img v-show="isLoaded[i]" :src="product.image" :alt="product.name" class="product-image"
+              @load="() => isLoaded[i] = true">
+            <Placeholder v-show="!isLoaded[i]" class="product-image placeholder" />
           </div>
           <Placeholder v-if="!product.image" class="product-image placeholder" />
         </div>

@@ -1,8 +1,14 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { useQueryStringStore } from '@/stores/queryString'
+import Search from '@/assets/images/Search.vue'
+
 const queryStringStore = useQueryStringStore()
 const keyword = ref(queryStringStore.keyword || '')
+
+defineProps<{
+  userId: number
+}>()
 
 function handleSubmit() {
   queryStringStore.handleSearchKeyword(keyword.value)
@@ -14,9 +20,11 @@ watch(queryStringStore, () => {
 <template>
   <div class="nav-search-wrapper">
     <div class="nav-search-input-wrapper">
-      <input type="text" class="nav-search-input" maxlength="15" v-model="keyword" @keyup.enter="handleSubmit">
+      <input type="text" class="nav-search-input" maxlength="15" v-model="keyword" @keyup.enter="handleSubmit"
+        :placeholder="userId ? '在此商店搜尋' : ''">
       <button class="btn-search" @click="handleSubmit">
-        <p class="search-icon">search</p>
+        <Search class="btn-product btn-search-product" />
+        <span class="tooltip tooltip-delete">搜尋</span>
       </button>
     </div>
   </div>
@@ -30,6 +38,8 @@ watch(queryStringStore, () => {
 
 .nav-search-input-wrapper {
   @extend %input-style;
+  display: flex;
+  justify-content: space-between;
   margin: 10px 0 0 0;
   height: 80%;
 }
@@ -43,6 +53,20 @@ watch(queryStringStore, () => {
 
 .btn-search {
   @extend %standard-button;
-  margin-left: 10px;
+  position: relative;
+
+  .btn-product {
+    width: 15px;
+    height: 15px;
+  }
+
+  .tooltip {
+    @extend %standard-tooltip
+  }
+
+  &:hover .tooltip {
+    opacity: 1;
+    transition: all .4s ease-out;
+  }
 }
 </style>
