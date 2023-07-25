@@ -95,7 +95,7 @@ const handleAddToCart = async (productId) => {
     </router-link>
 
     <!-- 按鈕部分 -->
-    <div v-if="role === 'buyer'" class="buyer">
+    <div v-if="authenticator.role === 'buyer'" class="buyer">
       <Cart class="btn-product btn-add-product" id="btn-add-product" @click="() => handleAddToCart(product.id)" />
       <span class="tooltip tooltip-add">加入購物車</span>
 

@@ -31,6 +31,7 @@ defineProps<{
 <style scoped lang="scss">
 .nav-container {
   @extend %standard-boxshadow;
+  min-width: 765px;
 }
 
 .nav-wrapper {

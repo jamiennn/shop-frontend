@@ -22,7 +22,8 @@ import { useAuthenticator } from '@/stores/authenticator'
 const authenticator = useAuthenticator()
 import { useQueryStringStore } from '@/stores/queryString'
 const queryStringStore = useQueryStringStore()
-
+import { useCartStore } from '@/stores/cart'
+const CartStore = useCartStore()
 
 import Swal from 'sweetalert2'
 import { errorToast, successToast } from '@/helper/toast.js'
@@ -70,6 +71,7 @@ const handleAddToCart = async () => {
       'success',
       `加入購物車成功`
     )
+    CartStore.status = 'start'
     router.push(`/carts/${authenticator.currentMember.id}`)
   }
 }
