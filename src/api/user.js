@@ -23,6 +23,26 @@ export const loginApi = async (account, password) => {
   }
 }
 
+export const registerApi = async (account, password, email, checkPassword, isSeller) => {
+  try {
+    const response = await axios.post(`${baseUrl}/register`, { account, password, email, checkPassword, isSeller })
+    const { data } = response
+    if (response.status === 200) {
+      return {
+        success: true,
+        messages: {
+          registeredUser: data.data.user
+        }
+      }
+    }
+  } catch (e) {
+    const { status, data } = e.response
+    if (status === 500) {
+      return { success: false, messages: data.messages }
+    }
+  }
+}
+
 export const getUserApi = async (userId) => {
   try {
     const response = await axios.get(`${baseUrl}/${userId}`)

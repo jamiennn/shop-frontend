@@ -2,7 +2,7 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
 import router from '@/router';
-import { loginApi, testTokenApi } from '@/api/user.js'
+import { loginApi, registerApi, testTokenApi } from '@/api/user.js'
 import { successToast } from '@/helper/toast.js'
 
 export const useAuthenticator = defineStore('authenticator', () => {
@@ -38,6 +38,21 @@ export const useAuthenticator = defineStore('authenticator', () => {
       console.error(e)
     }
   }
+
+  const register = async (account, password, email, checkPassword, isSeller) => {
+    try {
+      const { success, messages } = await registerApi(account, password, email, checkPassword, isSeller)
+
+      if (success) {
+        return { success }
+      } else {
+        return { success, messages }
+      }
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
   const logout = () => {
     localStorage.removeItem('authToken')
     isAuthenticated.value = false
@@ -75,6 +90,7 @@ export const useAuthenticator = defineStore('authenticator', () => {
     currentMember,
     role,
     login,
+    register,
     logout,
     checkPermission
   }

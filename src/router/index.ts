@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { watch } from 'vue'
 import LoginPage from '../views/LoginPage.vue'
+import RegisterPage from '../views/RegisterPage.vue'
 import HomePage from '../views/HomePage.vue'
 import CreateProductPage from '../views/CreateProductPage.vue'
 import CartPage from '@/views/CartPage.vue'
@@ -96,6 +97,11 @@ const routes = [
     path: '/login',
     name: 'login',
     component: LoginPage
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: RegisterPage
   },
   {
     path: '/users/:uid/products',
