@@ -22,6 +22,12 @@ const wrapperClass = "nav-list d-flex flex-row"
         <span class="tooltip tooltip-cart">瀏覽購物車</span>
       </router-link>
     </li>
+    <li class="product">
+      <router-link class="nav-list-icon" :to="`/users/${user.id}/orders`">
+        <ListIcon class="btn-product btn-list" />
+        <span class="tooltip tooltip-product-list">我的訂單</span>
+      </router-link>
+    </li>
     <Logout />
   </div>
   <div v-else-if="user && role === 'seller'" :class="wrapperClass">

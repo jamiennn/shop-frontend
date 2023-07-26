@@ -53,7 +53,7 @@ const checkSellerAuth = () => {
 const checkCartAuth = (route) => {
   const authenticator = useAuthenticator()
   const userId = Number(route.params.uid)
-  if (authenticator.currentMember.id !== userId) {
+  if (authenticator.role !== 'buyer' || authenticator.currentMember.id !== userId) {
     errorToast(
       'error',
       'Unauthorized'
@@ -118,7 +118,7 @@ const routes = [
     component: UserOrderPage,
     beforeEnter: [
       checkRoleBeforeEnter,
-      checkAuthBeforeEnter]
+      checkCartAuth]
   },
   {
     path: '/products/new',

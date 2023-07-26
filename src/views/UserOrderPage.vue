@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import Header from '@/components/header/Header.vue'
-import OrderList from '@/components/order/OrderList.vue'
+import UserOrderList from '@/components/order/UserOrderList.vue'
 
-import { onBeforeMount, reactive, ref } from 'vue';
+import { onBeforeMount, reactive } from 'vue';
 
 import { useRoute } from 'vue-router'
 const route = useRoute()
@@ -15,17 +15,17 @@ import { useAuthenticator } from '@/stores/authenticator'
 const authenticator = useAuthenticator()
 
 // swal
-import { errorToast, successToast } from '@/helper/toast.js'
+import { errorToast } from '@/helper/toast.js'
 import router from '@/router';
-import Swal from 'sweetalert2';
 
 const orders = reactive({})
-const total = ref(0)
-const status = ref('start')
 
 onBeforeMount(async () => {
   const userId = Number(route.params.uid)
-  if (userId !== authenticator.currentMember.id) return errorToast('error', 'Forbidden')
+  if (userId !== authenticator.currentMember.id) {
+    router.push('/')
+    return errorToast('error', 'Forbidden')
+  }
   const response = await getUserOrderApi(userId)
 
   if (!response.success) {
@@ -33,72 +33,51 @@ onBeforeMount(async () => {
     return router.push('/')
   } else {
     const responseOrder = response.messages.order
-
     Object.assign(orders, responseOrder)
-    console.log(orders)
-    // orders.OrderItems.forEach(o => {
-    //   total.value += o.amount * o.Product.price
-    // })
   }
 })
-
-// async function handleCheckOrder() {
-//   status.value = 'submitting'
-//   Swal.showLoading()
-//   const response = await checkOutOrderApi(route.params.oid)
-//   console.log(response)
-//   if (!response.success) {
-//     errorToast(
-//       'error',
-//       response.messages
-//     )
-//     return router.push(`/`)
-//   }
-//   successToast('success', '結帳成功')
-//   router.push(`/`)
-// }
 
 </script>
 
 <template>
   <Header :searchbar="false" />
-  <main class="container cart-container">
-    <div class="cart-title">所有訂單{{ order.id }}</div>
-    <section class="cart-list-container">
-      <OrderList :order="order" />
+  <main class="container order-container">
+    <section v-if="orders[0]" class="order-list-container">
+      <div class="order-title">所有訂單</div>
+      <div class="order-list-wrapper">
+        <UserOrderList v-for="(order, i) in orders" :order="order" :key="i" />
+      </div>
     </section>
-    <section class="cart-list-check cart-container">
-      <p class="total">總計： $ {{ total }}</p>
-      <button v-if="!order.isChecked" class="btn-submit-cart" @click="handleCheckOrder"
-        :disabled="status === 'submitting'">結帳</button>
+    <section v-if="!orders[0]" class="order-list-container">
+      <div class="no-order-title">
+        目前還沒有訂單，快去新增吧～
+      </div>
     </section>
   </main>
 </template>
 
 <style lang="scss">
-.cart-container {
+.order-container {
   flex-direction: column;
   word-wrap: break-word;
   padding: 0 20px;
 
-  .cart-title {
+  .order-title {
     @extend %standard-title;
     display: inline-block;
-    margin: 0 50px 20px 60px;
+    margin: 0 50px 10px 100px;
   }
 
-  .cart-list-container,
-  .cart-list-check {
+  .order-list-container,
+  .order-list-check {
     width: 90%;
     min-width: 765px;
     margin: 0 auto;
-    background-color: white;
     border-radius: 5px;
   }
 }
 
-
-.cart-list-check {
+.order-list-check {
   height: 200px;
   margin-top: 20px;
   text-align: end;
@@ -107,20 +86,15 @@ onBeforeMount(async () => {
     @extend %standard-title;
     font-size: 20px;
   }
+}
 
-  .btn-submit-cart {
-    @extend %standard-button;
-    margin-top: 20px;
-    height: 40px;
-    color: white;
-    background-color: var(--dark-blue);
-    font-size: 16px;
-    font-weight: 500;
+.order-list-wrapper {
+  margin: 20px;
+  padding: 20px;
+}
 
-    &:disabled {
-      background-color: var(--light-blue);
-      cursor: not-allowed;
-    }
-  }
+.no-order-title {
+  @extend %standard-title;
+  text-align: center;
 }
 </style>
