@@ -8,7 +8,6 @@ defineProps<{
 import Placeholder from '@/assets/images/MixerIcon-placeholder.vue'
 import orderItemAmount from '@/components/order/OrderItemAmount.vue'
 
-const isLoaded = ref(false)
 
 </script>
 
@@ -24,36 +23,38 @@ const isLoaded = ref(false)
           <th class="table-cell-subtotal">小計</th>
         </tr>
       </thead>
+
+      <!-- 如果還沒結帳，商品的 name, price, image 會依照商品現況更新 -->
+      <!-- 如果已經結帳，使用存在 order item裡的資訊 -->
       <tbody>
         <tr v-for="(o, i) in order.OrderItems" :key="i" class="cart-item-wrapper table-row">
           <td class="table-row-image table-cell">
             <router-link :to="`/products/${o.Product.id}`" class="cart-item-link">
               <div class="cart-image-wrapper">
-                <div v-if="o.Product.image" class="cart-image-center">
-                  <img v-show="isLoaded" :src="o.Product.image" :alt="o.Product.name" class="cart-image"
-                    @load="() => isLoaded = true">
-                  <Placeholder v-show="!isLoaded" class="cart-image placeholder" />
+                <div v-if="order.isChecked ? o.productImage : o.Product.image" class="cart-image-center">
+                  <img :src="order.isChecked ? o.productImage : o.Product.image" :alt="o.Product.name" class="cart-image">
                 </div>
-                <Placeholder v-if="!o.Product.image" class="cart-image placeholder" />
+                <Placeholder v-if="order.isChecked ? !o.productImage : !o.Product.image" class="cart-image placeholder" />
               </div>
             </router-link>
           </td>
 
           <td class="table-row-name table-cell">
             <router-link :to="`/products/${o.Product.id}`" class="cart-item-link">
-              <p class="cart-name">{{ o.Product.name }}</p>
+              <p class="cart-name">{{ order.isChecked ? o.productName : o.Product.name }}</p>
             </router-link>
           </td>
 
           <td class="table-row-price table-cell">
-            <div class="cart-price">$ {{ o.Product.price }}</div>
+            <div class="cart-price">$ {{ order.isChecked ? o.productPrice : o.Product.price }}</div>
           </td>
 
           <td class="table-row-amount table-cell">
             <orderItemAmount :amount="o.amount" />
           </td>
           <td class="table-row-delete table-cell">
-            <div class="cart-subtotal">$ {{ o.amount * o.Product.price }}</div>
+            <div v-if="order.isChecked" class="cart-subtotal">$ {{ o.amount * o.productPrice }}</div>
+            <div v-if="!order.isChecked" class="cart-subtotal">$ {{ o.amount * o.Product.price }}</div>
           </td>
         </tr>
       </tbody>

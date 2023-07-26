@@ -8,7 +8,7 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 
 // api
-import { getOrderApi, checkOutOrderApi } from '@/api/order.js'
+import { getUserOrderApi } from '@/api/order.js'
 
 // stores
 import { useAuthenticator } from '@/stores/authenticator'
@@ -19,60 +19,51 @@ import { errorToast, successToast } from '@/helper/toast.js'
 import router from '@/router';
 import Swal from 'sweetalert2';
 
-const order = reactive({})
+const orders = reactive({})
 const total = ref(0)
 const status = ref('start')
 
 onBeforeMount(async () => {
-  const orderId = route.params.oid
-  const response = await getOrderApi(orderId)
+  const userId = Number(route.params.uid)
+  if (userId !== authenticator.currentMember.id) return errorToast('error', 'Forbidden')
+  const response = await getUserOrderApi(userId)
 
   if (!response.success) {
     errorToast('error', response.messages)
     return router.push('/')
   } else {
     const responseOrder = response.messages.order
-    if (responseOrder.userId !== authenticator.currentMember.id) {
-      errorToast('error', 'Forbidden')
-      return router.push('/')
-    }
-    Object.assign(order, responseOrder)
 
-    if (order.isChecked) {
-      order.OrderItems.forEach(o => {
-        total.value += o.amount * o.productPrice
-      })
-    } else {
-      order.OrderItems.forEach(o => {
-        total.value += o.amount * o.Product.price
-      })
-    }
-
+    Object.assign(orders, responseOrder)
+    console.log(orders)
+    // orders.OrderItems.forEach(o => {
+    //   total.value += o.amount * o.Product.price
+    // })
   }
 })
 
-async function handleCheckOrder() {
-  status.value = 'submitting'
-  Swal.showLoading()
-  const response = await checkOutOrderApi(route.params.oid)
-  console.log(response)
-  if (!response.success) {
-    errorToast(
-      'error',
-      response.messages
-    )
-    return router.push(`/`)
-  }
-  successToast('success', '結帳成功')
-  router.push(`/`)
-}
+// async function handleCheckOrder() {
+//   status.value = 'submitting'
+//   Swal.showLoading()
+//   const response = await checkOutOrderApi(route.params.oid)
+//   console.log(response)
+//   if (!response.success) {
+//     errorToast(
+//       'error',
+//       response.messages
+//     )
+//     return router.push(`/`)
+//   }
+//   successToast('success', '結帳成功')
+//   router.push(`/`)
+// }
 
 </script>
 
 <template>
   <Header :searchbar="false" />
   <main class="container cart-container">
-    <div class="cart-title">訂單編號：{{ order.id }}</div>
+    <div class="cart-title">所有訂單{{ order.id }}</div>
     <section class="cart-list-container">
       <OrderList :order="order" />
     </section>

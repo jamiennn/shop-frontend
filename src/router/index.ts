@@ -6,6 +6,7 @@ import HomePage from '../views/HomePage.vue'
 import CreateProductPage from '../views/CreateProductPage.vue'
 import CartPage from '@/views/CartPage.vue'
 import OrderPage from '@/views/OrderPage.vue'
+import UserOrderPage from '@/views/UserOrderPage.vue'
 import ProductDetail from '@/views/ProductDetail.vue'
 
 import { useAuthenticator } from '@/stores/authenticator';
@@ -112,6 +113,14 @@ const routes = [
       checkQueryBeforeShop]
   },
   {
+    path: '/users/:uid/orders',
+    name: 'UserOrderPage',
+    component: UserOrderPage,
+    beforeEnter: [
+      checkRoleBeforeEnter,
+      checkAuthBeforeEnter]
+  },
+  {
     path: '/products/new',
     name: 'create',
     component: CreateProductPage,
@@ -136,7 +145,7 @@ const routes = [
       checkRoleBeforeEnter]
   },
   {
-    path: '/orders/:oid/checkout',
+    path: '/orders/:oid',
     name: 'OrderPage',
     component: OrderPage,
     beforeEnter: [

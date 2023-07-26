@@ -98,7 +98,7 @@ export const useCartStore = defineStore('cartStore', () => {
     }
 
     Swal.fire('請確認訂單後點選結帳按鈕')
-    router.push(`/orders/${response.messages.orders.order.id}/checkout`)
+    router.push(`/orders/${response.messages.orders.order.id}`)
   }
 
   return {
