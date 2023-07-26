@@ -273,6 +273,8 @@ const inputInvalid = computed(() => {
   // description section
   .product-description {
     width: 100%;
+    margin-bottom: 50px;
+    padding: 20px;
     background-color: white
   }
 }

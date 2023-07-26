@@ -20,9 +20,11 @@ const authenticator = useAuthenticator()
 
 const products = reactive({})
 const isLoaded = reactive([])
+const emit = defineEmits(['update:modelValue'])
 
 defineProps<{
-  sellerId: number
+  sellerId: number,
+  modelValue: boolean
 }>()
 
 // 監控 query string store，更新 products
@@ -38,6 +40,7 @@ watch(queryStringStore, async () => {
   }
 
   Object.assign(products, newProducts)
+  emit('update:modelValue', true)
 }, { immediate: true })
 
 
