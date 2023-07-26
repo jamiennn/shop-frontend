@@ -44,22 +44,6 @@ VITE_API_URL=http://foo/bar
 npm run dev
 ```
 
-## 正式環境
-1. 設定 .env 檔案的後端 API URL  
-請取名為 .env.production
-```
-<!-- 等號後面請放上您正式部署的後端 API URL -->
-VITE_API_URL=http://foo/bar
-```
-2. 建立正式專案資料夾
-```
-npm run build
-```
-3. 依照要部署的網站，設定 package.json script。例如本專案部署至 github pages，deploy參數設定如下
-```js
-"deploy": "gh-pages -d dist"
-```
-
 ## 設定後端
 請參考連結：https://github.com/jamiennn/shop-backend
 
