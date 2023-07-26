@@ -74,6 +74,13 @@ watch(route, async () => {
 
 // 送出前檢查表單
 const checkBeforeSubmit = async () => {
+  const authToken = localStorage.getItem('authToken')
+  await authenticator.checkPermission(authToken)
+  if (!authToken || !authenticator.isAuthenticated) {
+    router.push('/login')
+    return errorToast('error', 'Forbidden')
+  }
+
   if (!form.nameInput || !form.priceInput || !form.stockInput || !form.categoryInput) {
     status.value = 'error'
     return errorToast(

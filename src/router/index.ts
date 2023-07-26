@@ -181,6 +181,12 @@ const router = createRouter({
 router.beforeEach(async () => {
   const authenticator = useAuthenticator()
   const authToken = localStorage.getItem('authToken')
+  if (!authToken) {
+    authenticator.isAuthenticated = false
+    authenticator.currentMember = null
+    authenticator.role = 'guest'
+    return
+  }
   await authenticator.checkPermission(authToken)
 })
 

@@ -52,6 +52,13 @@ onBeforeMount(async () => {
 })
 
 async function handleCheckOrder() {
+  const authToken = localStorage.getItem('authToken')
+  await authenticator.checkPermission(authToken)
+  if (!authToken || !authenticator.isAuthenticated) {
+    router.push('/login')
+    return errorToast('error', 'Forbidden')
+  }
+
   status.value = 'submitting'
   Swal.showLoading()
   const response = await checkOutOrderApi(route.params.oid)

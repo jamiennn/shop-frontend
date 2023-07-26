@@ -52,6 +52,13 @@ export const useCartStore = defineStore('cartStore', () => {
 
   // 加購物車品項
   async function handleAddAmount(index) {
+    const authToken = localStorage.getItem('authToken')
+    await authenticator.checkPermission(authToken)
+    if (!authToken || !authenticator.isAuthenticated) {
+      router.push('/login')
+      return errorToast('error', 'Forbidden')
+    }
+
     cartItems[index].amount += 1
     handleEditCart(index)
     changeSubtotal(index)
@@ -60,6 +67,13 @@ export const useCartStore = defineStore('cartStore', () => {
 
   // 減購物車品項
   async function handleMinusAmount(index) {
+    const authToken = localStorage.getItem('authToken')
+    await authenticator.checkPermission(authToken)
+    if (!authToken || !authenticator.isAuthenticated) {
+      router.push('/login')
+      return errorToast('error', 'Forbidden')
+    }
+
     cartItems[index].amount -= 1
     handleEditCart(index)
     changeSubtotal(index)
@@ -85,6 +99,13 @@ export const useCartStore = defineStore('cartStore', () => {
 
   // checkout 購物車
   const handleCheckoutCart = async () => {
+    const authToken = localStorage.getItem('authToken')
+    await authenticator.checkPermission(authToken)
+    if (!authToken || !authenticator.isAuthenticated) {
+      router.push('/login')
+      return errorToast('error', 'Forbidden')
+    }
+
     status.value = 'submitting'
     Swal.showLoading()
     const response = await checkOutCartApi()

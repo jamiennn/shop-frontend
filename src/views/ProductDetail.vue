@@ -54,6 +54,13 @@ watch(route, async () => {
 
 // 加入購物車功能
 const handleAddToCart = async () => {
+  const authToken = localStorage.getItem('authToken')
+  await authenticator.checkPermission(authToken)
+  if (!authToken || !authenticator.isAuthenticated) {
+    router.push('/login')
+    return errorToast('error', 'Forbidden')
+  }
+
   status.value = 'submitting'
   Swal.showLoading()
 
@@ -78,6 +85,13 @@ const handleAddToCart = async () => {
 
 // 下架功能
 async function handleOffShelf(productId) {
+  const authToken = localStorage.getItem('authToken')
+  await authenticator.checkPermission(authToken)
+  if (!authToken || !authenticator.isAuthenticated) {
+    router.push('/login')
+    return errorToast('error', 'Forbidden')
+  }
+
   const response = confirm('確定要下架此商品嗎？')
   if (!response) return
   const data = await patchProductApi(productId)

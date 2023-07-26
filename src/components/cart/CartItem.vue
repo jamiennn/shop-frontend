@@ -28,6 +28,13 @@ onMounted(async () => {
 
 // 刪除功能
 async function handleDeleteCartItem(cartId) {
+  const authToken = localStorage.getItem('authToken')
+  await authenticator.checkPermission(authToken)
+  if (!authToken || !authenticator.isAuthenticated) {
+    router.push('/login')
+    return errorToast('error', 'Forbidden')
+  }
+
   const response = confirm('確定要從購物車刪除此商品嗎？')
   if (!response) return
   const data = await deleteCartApi(cartId)
