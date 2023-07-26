@@ -240,7 +240,7 @@ const handleAddToCart = async (productId) => {
 
     color: #fff;
     text-align: center;
-    font-size: 5px;
+    font-size: 11px;
     font-weight: 500;
   }
 
