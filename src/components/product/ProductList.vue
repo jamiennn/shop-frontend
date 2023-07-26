@@ -28,7 +28,7 @@ defineProps<{
     <div class="loading-text">Loading</div>
     <Loading />
   </div>
-  <Paginator v-show="dataReady" />
+  <Paginator />
 </template>
 
 <style scoped lang="scss">
