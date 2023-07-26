@@ -57,6 +57,7 @@ export const useAuthenticator = defineStore('authenticator', () => {
     localStorage.removeItem('authToken')
     isAuthenticated.value = false
     currentMember.value = null
+    role.value = ''
     router.push('/')
     successToast(
       'success',

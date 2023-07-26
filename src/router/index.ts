@@ -18,7 +18,7 @@ const checkAuthBeforeEnter = async () => {
   const authenticator = useAuthenticator()
 
   watch(authenticator, () => {
-    if (!authenticator.isAuthenticated) router.push('/login')
+    if (!authenticator.isAuthenticated) return router.push('/login')
   }, { immediate: true })
 }
 
@@ -181,7 +181,7 @@ const router = createRouter({
 router.beforeEach(async () => {
   const authenticator = useAuthenticator()
   const authToken = localStorage.getItem('authToken')
-  authToken ? await authenticator.checkPermission(authToken) : false
+  await authenticator.checkPermission(authToken)
 })
 
 export default router
