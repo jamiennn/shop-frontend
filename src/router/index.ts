@@ -182,7 +182,6 @@ router.beforeEach(async () => {
   const authenticator = useAuthenticator()
   const authToken = localStorage.getItem('authToken')
   authToken ? await authenticator.checkPermission(authToken) : false
-  console.log('in beforeEach')
 })
 
 export default router

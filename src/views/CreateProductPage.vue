@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, reactive, ref, provide, watch, onBeforeMount } from 'vue';
+import { computed, reactive, ref, provide, watch } from 'vue';
 import router from '@/router';
 import Header from '@/components/header/Header.vue'
 import FormImput from '@/components/form/FormInput.vue'

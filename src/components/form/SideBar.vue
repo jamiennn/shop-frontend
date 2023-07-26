@@ -9,7 +9,6 @@ import SearchPrice from '@/components/form/SearchPrice.vue'
 
     <SearchPrice />
 
-    <!-- Category 待補 -->
     <div class="categories-wrapper">
       <SearchCategory />
     </div>

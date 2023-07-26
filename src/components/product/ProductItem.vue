@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { watch, reactive, ref } from 'vue'
+import { watch, reactive } from 'vue'
 import Placeholder from '@/assets/images/MixerIcon-placeholder.vue'
 import Edit from '@/assets/images/Edit.vue'
 import Delete from '@/assets/images/Delete.vue'

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { inject, onMounted, ref, computed } from 'vue'
 import { searchProductApi } from '@/api/product.js'
-import { errorToast } from '@/helper/toast.js'
+
 
 defineProps<{
   name: string,

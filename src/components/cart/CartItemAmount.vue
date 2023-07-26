@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref, inject, watch, setup, onMounted } from 'vue'
 import Plus from '@/assets/images/Plus.vue'
 import Minus from '@/assets/images/Minus.vue'
 
@@ -36,7 +35,6 @@ const cartItem = CartStore.cartItems[props.index]
 <style scoped lang="scss">
 .product-amount-control {
   position: relative;
-
 
   .product-amount {
     position: relative;

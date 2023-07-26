@@ -1,13 +1,10 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-
 defineProps<{
   order: object
 }>()
 // icons and pages
 import Placeholder from '@/assets/images/MixerIcon-placeholder.vue'
 import orderItemAmount from '@/components/order/OrderItemAmount.vue'
-
 
 </script>
 

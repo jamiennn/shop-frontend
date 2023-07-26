@@ -3,7 +3,6 @@ import { ref, onMounted } from 'vue'
 
 // icons and pages
 import Placeholder from '@/assets/images/MixerIcon-placeholder.vue'
-import Cart from '@/assets/images/Cart.vue'
 import CartItemAmount from '@/components/cart/CartItemAmount.vue'
 
 // swal
@@ -37,7 +36,7 @@ async function handleDeleteCartItem(cartId) {
     successToast('success', '刪除成功')
 
     CartStore.getCart()
-    // CartStore.cartListKey += 1
+
     router.push(`/carts/${authenticator.currentMember.id}`)
   } else {
     errorToast('error', data.messages)
@@ -179,8 +178,6 @@ async function handleDeleteCartItem(cartId) {
     }
   }
 }
-
-
 
 .cart-item-link {
 

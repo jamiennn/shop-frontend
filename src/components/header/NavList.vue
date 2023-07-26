@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { watch, ref } from 'vue'
 import NavItem from '@/components/header/NavItem.vue'
 import { useAuthenticator } from '@/stores/authenticator'
 const authenticator = useAuthenticator()

@@ -55,7 +55,7 @@ async function handleCheckOrder() {
   status.value = 'submitting'
   Swal.showLoading()
   const response = await checkOutOrderApi(route.params.oid)
-  console.log(response)
+
   if (!response.success) {
     errorToast(
       'error',

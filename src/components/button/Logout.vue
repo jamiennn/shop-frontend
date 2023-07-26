@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { useAuthenticator } from '@/stores/authenticator';
 const authenticator = useAuthenticator()
-import Swal from 'sweetalert2'
-import { successToast } from '@/helper/toast.js'
+
 import LogoutIcon from '@/assets/images/Logout.vue'
 
 </script>

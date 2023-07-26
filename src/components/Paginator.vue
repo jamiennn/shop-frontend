@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { watch, reactive, computed } from 'vue';
+import { watch, reactive } from 'vue';
 import { useQueryStringStore } from '@/stores/queryString'
 const queryStringStore = useQueryStringStore()
 
