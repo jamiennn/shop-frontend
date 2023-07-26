@@ -12,6 +12,7 @@ const dataReady = ref(false)
 
 // 監控 query string store，若有變化要重新 render 此面板
 watch(queryStringStore, async () => {
+  dataReady.value = false
   productListKey.value = queryStringStore.getProductListKey()
 }, { immediate: true })
 
@@ -27,7 +28,7 @@ defineProps<{
     <div class="loading-text">Loading</div>
     <Loading />
   </div>
-  <Paginator />
+  <Paginator v-show="dataReady" />
 </template>
 
 <style scoped lang="scss">
