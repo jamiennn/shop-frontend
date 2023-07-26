@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, onMounted, ref } from 'vue'
+import { inject, onMounted, ref, computed } from 'vue'
 import { searchProductApi } from '@/api/product.js'
 import { errorToast } from '@/helper/toast.js'
 
@@ -26,13 +26,21 @@ function handleSelect(e) {
   status.value = 'typing'
   return emit('update:modelValue', e.target.value)
 }
+
+// 計算要套用的樣式
+const selectClass = computed(() => {
+  return {
+    "form-select": true,
+    "form-select-invalid": status.value === 'error'
+  }
+})
 </script>
 
 <template>
   <label :for="name" class="form-label">{{ nameCn }}：</label>
-  <select class="form-select" :id="name" @change="handleSelect">
+  <select :class="selectClass" :id="name" @change="handleSelect" :disabled="status === 'submitting'">
     <option disabled selected>選擇{{ nameCn }}</option>
-    <option v-for="(category, index) in categories" :key="index" :value="category.id" :disabled="status === 'submitting'"
+    <option v-for="(category, index) in categories" :key="index" :value="category.id"
       :selected="category.id === categoryInput">
       {{ category.name }}</option>
   </select>
@@ -50,6 +58,9 @@ function handleSelect(e) {
   font-weight: 500;
 }
 
+.form-select-invalid {
+  border: 2px solid var(--danger);
+}
 
 .form-label {
   height: 22px;

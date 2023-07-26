@@ -27,6 +27,13 @@ watch(authenticator, () => {
 
 const handleSubmitForm = async () => {
   try {
+    if (form.passwordInput.length < 7) {
+      status.value = 'error'
+      return errorToast(
+        'error',
+        '密碼須為7個字以上'
+      )
+    }
     status.value = 'submitting'
     Swal.showLoading()
     const response = await authenticator.login(form.accountInput, form.passwordInput)
@@ -51,7 +58,6 @@ const handleSubmitForm = async () => {
 
 const inputInvalid = computed(() => {
   if (form.accountInput.length === 0 ||
-    form.passwordInput.length < 7 ||
     status.value === 'submitting') return true
   return false
 })

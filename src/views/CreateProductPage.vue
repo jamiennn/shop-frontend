@@ -20,6 +20,12 @@ const status = ref('start')
 provide('status', status)
 
 
+// 表單限制條件設定
+const PRODUCT_NAME_LENGTH = 50
+const PRICE_MAX = 50000
+const PRODUCT_DESCRIPTION_LENGTH = 10000
+const STOCK_MAX = 999999
+
 // reactive props for v-model
 const initialForm = {
   nameInput: '',
@@ -66,9 +72,49 @@ watch(route, async () => {
   }
 }, { immediate: true })
 
+// 送出前檢查表單
+const checkBeforeSubmit = async () => {
+  if (!form.nameInput || !form.priceInput || !form.stockInput || !form.categoryInput) {
+    status.value = 'error'
+    return errorToast(
+      'error',
+      '請確認必填項目都有填寫：名稱、定價、庫存、分類'
+    )
+  }
+  if (!form.nameInput || form.nameInput.length > PRODUCT_NAME_LENGTH) {
+    status.value = 'error'
+    return errorToast(
+      'error',
+      `商品名稱限制${PRODUCT_NAME_LENGTH}字以內`
+    )
+  }
+  if (!form.priceInput || form.priceInput > PRICE_MAX || form.priceInput <= 0) {
+    status.value = 'error'
+    return errorToast(
+      'error',
+      `定價限制為0～${PRICE_MAX}之間`
+    )
+  }
+  if (form.descriptionInput.length > PRODUCT_DESCRIPTION_LENGTH) {
+    status.value = 'error'
+    return errorToast(
+      'error',
+      `商品描述限制${PRODUCT_DESCRIPTION_LENGTH}字以內`
+    )
+  }
+  if (!form.stockInput || form.stockInput > STOCK_MAX || form.stockInput <= 0) {
+    status.value = 'error'
+    return errorToast(
+      'error',
+      `庫存限制為0～${STOCK_MAX}之間`
+    )
+  }
+}
 
 // 如果是 create 功能
 const handleCreate = async () => {
+  if (status.value === 'error') return
+
   status.value = 'submitting'
   Swal.showLoading()
 
@@ -91,6 +137,8 @@ const handleCreate = async () => {
 
 // 如果是 edit 功能
 const handleEdit = async () => {
+  if (status.value === 'error') return
+
   status.value = 'submitting'
   Swal.showLoading()
 
@@ -114,7 +162,6 @@ const handleEdit = async () => {
 // 根據表單狀態計算樣式
 const inputInvalid = computed(() => {
   if (status.value === 'start' ||
-    form.priceInput > 50000 ||
     status.value === 'submitting') return true
   return false
 })
@@ -139,12 +186,16 @@ const inputInvalid = computed(() => {
           :imageInput="form.imageInput" />
 
         <div v-if="route.name === 'create'" class="button-wrapper">
-          <button type="submit" class="btn-submit" id="submit" @click.stop.prevent="handleCreate"
-            :disabled="inputInvalid">新增商品</button>
+          <button type="submit" class="btn-submit" id="submit" @click.stop.prevent="() => {
+            checkBeforeSubmit()
+            handleCreate()
+          }" :disabled="inputInvalid">新增商品</button>
         </div>
         <div v-if="route.name === 'edit'" class="button-wrapper">
-          <button type="submit" class="btn-submit" id="submit" @click.stop.prevent="handleEdit"
-            :disabled="inputInvalid">編輯商品</button>
+          <button type="submit" class="btn-submit" id="submit" @click.stop.prevent="() => {
+            checkBeforeSubmit()
+            handleEdit()
+          }" :disabled="inputInvalid">編輯商品</button>
         </div>
       </form>
     </section>
