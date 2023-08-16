@@ -73,7 +73,7 @@ watch(route, async () => {
 }, { immediate: true })
 
 // 送出前檢查表單
-const checkBeforeSubmit = async () => {
+const checkBeforeSubmit = async (nextStep) => {
   const authToken = localStorage.getItem('authToken')
   await authenticator.checkPermission(authToken)
   if (!authToken || !authenticator.isAuthenticated) {
@@ -115,6 +115,12 @@ const checkBeforeSubmit = async () => {
       'error',
       `庫存限制為0～${STOCK_MAX}之間`
     )
+  }
+
+  if (nextStep === 'create') {
+    handleCreate()
+  } else {
+    handleEdit()
   }
 }
 
@@ -194,14 +200,12 @@ const inputInvalid = computed(() => {
 
         <div v-if="route.name === 'create'" class="button-wrapper">
           <button type="submit" class="btn-submit" id="submit" @click.stop.prevent="() => {
-            checkBeforeSubmit()
-            handleCreate()
+            checkBeforeSubmit('create')
           }" :disabled="inputInvalid">新增商品</button>
         </div>
         <div v-if="route.name === 'edit'" class="button-wrapper">
           <button type="submit" class="btn-submit" id="submit" @click.stop.prevent="() => {
-            checkBeforeSubmit()
-            handleEdit()
+            checkBeforeSubmit('edit')
           }" :disabled="inputInvalid">編輯商品</button>
         </div>
       </form>
