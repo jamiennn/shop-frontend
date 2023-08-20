@@ -29,6 +29,7 @@ defineProps<{
 
 // 監控 query string store，更新 products
 watch(queryStringStore, async () => {
+  emit('update:modelValue', false)
 
   const data = await queryStringStore.handleHomePage()
   const newProducts = data?.products

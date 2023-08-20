@@ -92,6 +92,7 @@ export const useCartStore = defineStore('cartStore', () => {
         'error',
         editedCart.messages
       )
+      status.value = 'error'
       return router.push(`/carts/${authenticator.currentMember.id}`)
     }
     return status.value = 'typing'
