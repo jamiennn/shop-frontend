@@ -26,26 +26,22 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-  test:
-    # stage: test
-    steps:
+
       - name: Run Playwright tests
         run:
           cd test/e2e
           npm ci
           npx playwright install --with-deps
           npx playwright test
+          cd .
       - uses: actions/upload-artifact@v3
         if: always()
         with:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
-  deploy:
-    steps:
+
       - name: Deploy
-        needs:
-          -job: test
         run: |
           git config --global user.name $user_name
           git config --global user.email $user_email
