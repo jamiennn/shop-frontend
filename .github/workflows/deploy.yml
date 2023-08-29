@@ -32,8 +32,9 @@ jobs:
           cd test/e2e
           npm ci
           npx playwright install --with-deps
-          npx playwright test
-          cd .
+          cd ..
+          cd ..
+          npm run e2e
       - uses: actions/upload-artifact@v3
         if: always()
         with:
