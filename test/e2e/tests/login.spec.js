@@ -1,6 +1,6 @@
 // @ts-check
 const { test, expect } = require('@playwright/test');
-const baseUrl = `${process.env.VITE_API_URL}`
+const baseUrl = process.env.VITE_API_URL || 'http://localhost:3001/api'
 const json = {
   "status": "success",
   "data": {
@@ -17,7 +17,6 @@ test('try to login', async ({ page }) => {
   await page.route(`${baseUrl}/users/login`, async route => {
     await route.fulfill({ json })
   })
-
   await page.goto('http://localhost:3003/shop-frontend/login');
 
   const submit = page.locator('#submit')
