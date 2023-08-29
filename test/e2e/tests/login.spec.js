@@ -1,6 +1,6 @@
 // @ts-check
 const { test, expect } = require('@playwright/test');
-const baseUrl = `${import.meta.env.VITE_API_URL}`
+const baseUrl = `${process.env.VITE_API_URL}`
 const json = {
   "status": "success",
   "data": {
