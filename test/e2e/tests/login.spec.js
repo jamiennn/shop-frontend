@@ -1,6 +1,6 @@
 // @ts-check
 const { test, expect } = require('@playwright/test');
-const baseUrl = process.env.VITE_API_URL || 'http://localhost:3001/api'
+const baseUrl = 'http://localhost:3001/api'
 const json = {
   "status": "success",
   "data": {
