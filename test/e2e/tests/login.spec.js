@@ -14,6 +14,7 @@ const json = {
 }
 
 test('try to login', async ({ page }) => {
+  console.log(baseUrl)
   await page.route(`${baseUrl}/users/login`, async route => {
     await route.fulfill({ json })
   })
