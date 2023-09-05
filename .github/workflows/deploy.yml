@@ -36,7 +36,7 @@ jobs:
           cd ..
           npm run e2e
         env:
-          VITE_API_URL: 'test/api'
+          NODE_ENV: 'production'
       - uses: actions/upload-artifact@v3
         if: always()
         with:
