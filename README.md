@@ -50,10 +50,10 @@ npm run dev
 
 ## 測試帳號
 買家帳號：buyer000
-密碼：titaner
+密碼：12345678
 
 商家帳號：seller001
-密碼：titaner
+密碼：12345678
 
 
 ## 功能介紹
