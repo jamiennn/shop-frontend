@@ -1,6 +1,6 @@
 // @ts-check
 const { test, expect } = require('@playwright/test');
-const baseUrl = process.env.NODE_ENV === 'production' ? 'https://arcane-tundra-20588-49d10ef2025d.herokuapp.com/api' : 'http://localhost:3001/api'
+const baseUrl = process.env.NODE_ENV === 'test' ? 'https://arcane-tundra-20588-49d10ef2025d.herokuapp.com/api' : 'http://localhost:3001/api'
 const json = {
   "status": "success",
   "data": {
