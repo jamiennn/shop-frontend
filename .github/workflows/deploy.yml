@@ -36,7 +36,7 @@ jobs:
           cd ..
           npm run e2e
         env:
-          NODE_ENV: 'test'
+          VITE_API_URL: https://arcane-tundra-20588-49d10ef2025d.herokuapp.com/api
       - uses: actions/upload-artifact@v3
         if: always()
         with:
