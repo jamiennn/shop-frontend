@@ -30,7 +30,7 @@ test('try to login', async ({ page }) => {
 
 
   // 成功登入
-  await password.fill('titaner')
+  await password.fill('12345678')
   await submit.click()
   await page.waitForURL('http://localhost:3003/shop-frontend/')
   await expect(page.locator('ul.nav-list-wrapper')).toContainText(/buyer000/)
