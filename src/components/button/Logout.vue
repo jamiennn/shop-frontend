@@ -20,7 +20,11 @@ import LogoutIcon from '@/assets/images/Logout.vue'
   @extend %standard-button;
 }
 
-#tooltip-logout {
-  top: 35px;
+@media screen and (min-width: 480px) {
+  .nav-toggle:checked~.nav-list-wrapper>.nav-list #tooltip-logout {
+    opacity: 0;
+    top: 35px;
+    right: 0;
+  }
 }
 </style>
