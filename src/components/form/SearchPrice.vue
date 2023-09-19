@@ -20,20 +20,30 @@ watch(queryStringStore, () => {
 </script>
 <template>
   <div class="search-price-wrapper">
-    <span class="search-price-title">金額</span>
+    <div class="search-price-title">金額</div>
     <div class="search-price-input-wrapper">
       <input type="number" class="search-price-input" min="0" max="999999" v-model="priceMin">
       <span class="tilde">～</span>
       <input type="number" class="search-price-input" min="0" max="999999" v-model="priceMax">
     </div>
   </div>
-  <button class="btn-search-price" @click="handleSubmit">套用</button>
-  <button class="btn-search-price" @click="queryStringStore.handleClearSearch">清除條件</button>
+  <div class="btn-search-price-wrapper">
+    <button class="btn-search-price" @click="handleSubmit">套用</button>
+    <button class="btn-search-price" @click="queryStringStore.handleClearSearch">清除條件</button>
+  </div>
 </template>
 
 <style lang="scss">
 .search-price-wrapper {
   width: 100%
+}
+
+.search-price-title {
+  margin-left: 15px;
+}
+
+.search-price-input-wrapper {
+  text-align: center
 }
 
 .search-price-input {
@@ -50,10 +60,32 @@ watch(queryStringStore, () => {
   padding: 5px;
 }
 
+.btn-search-price-wrapper {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-bottom: 10px
+}
 
 .btn-search-price {
   @extend %standard-button;
-  width: 100%;
+  width: 40%;
   margin-top: 20px;
+}
+
+@media screen and (min-width: 480px) {
+
+  .search-price-title {
+    margin-left: 0px;
+  }
+
+  .search-price-input-wrapper {
+    text-align: start
+  }
+
+  .btn-search-price {
+    width: 100%
+  }
+
 }
 </style>
