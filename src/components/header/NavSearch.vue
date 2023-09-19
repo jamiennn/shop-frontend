@@ -69,4 +69,11 @@ watch(queryStringStore, () => {
     transition: all .4s ease-out;
   }
 }
+
+/////////////////電腦版/////////////////
+@media screen and (min-width: 480px) {
+  .nav-search-wrapper {
+    width: 40%
+  }
+}
 </style>

@@ -42,11 +42,12 @@ watch(route, async () => {
 <style lang="scss">
 .container {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-evenly;
 }
 
 .side-bar {
-  width: 20%;
+  width: 100%;
 }
 
 .seller-title {
@@ -62,8 +63,18 @@ watch(route, async () => {
 }
 
 .product-list {
-  width: 70%;
+  width: 100%;
   background-color: white;
   border-radius: 5px;
+}
+
+@media screen and (min-width: 480px) {
+  .side-bar {
+    width: 20%;
+  }
+
+  .product-list {
+    width: 70%
+  }
 }
 </style>

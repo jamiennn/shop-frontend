@@ -65,16 +65,21 @@ const wrapperClass = "nav-list d-flex flex-row"
 
 <style lang="scss">
 .nav-list {
-  height: 100%;
-  width: 120px;
-  justify-content: space-around;
-  align-items: center
+  flex-direction: column;
+  opacity: 0;
+}
+
+.nav-toggle:checked~.nav-list-wrapper>.nav-list,
+.nav-toggle:checked~.nav-list-wrapper>.nav-list~.nav-list-item {
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
 }
 
 .nav-list-item {
   @extend %standard-href;
   cursor: pointer;
   margin: 0 10px;
+  opacity: 0;
 }
 
 li {
@@ -85,6 +90,7 @@ li {
 
 
 .nav-list-icon {
+  margin: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -100,24 +106,58 @@ li {
     height: 20px;
   }
 
-  .tooltip {
-    @extend %standard-tooltip
-  }
-
   .tooltip-create,
   .tooltip-product-list {
-    top: 35px;
-    right: -15px;
     width: 60px;
   }
 
   .tooltip-cart {
-    top: 35px;
-    right: -15px;
     width: 70px;
   }
 
   &:hover .tooltip {
+    opacity: 1;
+    transition: all .4s ease-out;
+  }
+}
+
+.tooltip {
+  @extend %standard-tooltip
+}
+
+/////////////////電腦版/////////////////
+@media screen and (min-width: 480px) {
+  .nav-list {
+    height: 100%;
+    width: 120px;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    opacity: 1;
+  }
+
+  .nav-list-item {
+    opacity: 1;
+  }
+
+  .tooltip-create,
+  .tooltip-product-list,
+  .nav-toggle:checked~.nav-list-wrapper>.nav-list .tooltip-create,
+  .nav-toggle:checked~.nav-list-wrapper>.nav-list .tooltip-product-list {
+    opacity: 0;
+    top: 35px;
+    right: -15px;
+  }
+
+  .tooltip-cart,
+  .nav-toggle:checked~.nav-list-wrapper>.nav-list .tooltip-cart {
+    opacity: 0;
+    top: 40px;
+    right: -20px;
+  }
+
+  .nav-toggle:checked~.nav-list-wrapper>.nav-list .nav-list-icon:hover .tooltip,
+  .nav-toggle:checked~.nav-list-wrapper>.nav-list .nav-list-icon:hover #tooltip-logout {
     opacity: 1;
     transition: all .4s ease-out;
   }
