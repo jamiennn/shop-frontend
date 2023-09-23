@@ -4,8 +4,10 @@ import { defineStore } from 'pinia'
 import router from '@/router';
 import { loginApi, registerApi, testTokenApi } from '@/api/user.js'
 import { successToast } from '@/helper/toast.js'
+import { useQueryStringStore } from './queryString'
 
 export const useAuthenticator = defineStore('authenticator', () => {
+  const queryString = useQueryStringStore()
   const isAuthenticated = ref(false)
   const currentMember = ref(null)
   const role = ref('')
@@ -58,6 +60,7 @@ export const useAuthenticator = defineStore('authenticator', () => {
     isAuthenticated.value = false
     currentMember.value = null
     role.value = ''
+    queryString.handleClearAll()
     router.push('/')
     successToast(
       'success',
