@@ -61,7 +61,7 @@ export const useAuthenticator = defineStore('authenticator', () => {
     currentMember.value = null
     role.value = ''
     queryString.handleClearAll()
-    router.push('/')
+    router.push('/login')
     successToast(
       'success',
       'Log out successfully.'

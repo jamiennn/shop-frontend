@@ -2,9 +2,13 @@
 import NavItem from '@/components/header/NavItem.vue'
 import { useAuthenticator } from '@/stores/authenticator'
 const authenticator = useAuthenticator()
+
+import { useModeStore } from '@/stores/mode'
+const modeStore = useModeStore()
+
 </script>
 <template>
-  <input type="checkbox" class="nav-toggle" id="nav-toggle">
+  <input type="checkbox" class="nav-toggle" id="nav-toggle" v-model="modeStore.hamChecked">
   <ul class="nav-list-wrapper">
     <NavItem :role="authenticator.role" :user="authenticator?.currentMember" />
   </ul>
@@ -38,9 +42,10 @@ const authenticator = useAuthenticator()
   position: absolute;
   top: 80px;
   right: 10px;
+  z-index: 1;
   width: 200px;
   border-radius: 5px;
-  background-color: var(--info);
+  background-color: white;
   @extend %standard-boxshadow;
   transform: scale(0, 0);
   transform-origin: top right;

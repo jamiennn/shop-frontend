@@ -11,6 +11,7 @@ import ProductDetail from '@/views/ProductDetail.vue'
 
 import { useAuthenticator } from '@/stores/authenticator';
 import { useQueryStringStore } from '@/stores/queryString'
+import { useModeStore } from '@/stores/mode'
 import { errorToast } from '@/helper/toast.js'
 
 // 檢查是否已登入
@@ -188,6 +189,10 @@ router.beforeEach(async () => {
     return
   }
   await authenticator.checkPermission(authToken)
+
+  // 清空下拉式 header 狀態
+  const modeStore = useModeStore()
+  modeStore.hamChecked = false
 })
 
 export default router
