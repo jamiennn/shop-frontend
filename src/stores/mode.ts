@@ -3,13 +3,20 @@ import { defineStore } from "pinia"
 
 export const useModeStore = defineStore('modeStore', () => {
   const hamChecked = ref(false)
+  const sideBarOpen = ref(false)
 
   const changeHam = () => {
-    hamChecked.value = hamChecked.value === false ? true : false
+    hamChecked.value = !hamChecked.value
+  }
+
+  const changeSideBar = () => {
+    sideBarOpen.value = !sideBarOpen.value
   }
 
   return {
     hamChecked,
-    changeHam
+    sideBarOpen,
+    changeHam,
+    changeSideBar
   }
 })

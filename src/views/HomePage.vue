@@ -71,6 +71,7 @@ watch(width, () => {
 }
 
 .side-bar {
+  margin-bottom: 10px;
   width: 100%;
 }
 

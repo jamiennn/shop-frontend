@@ -44,7 +44,7 @@ input[type="checkbox"] {
 }
 
 .text-s {
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .text-m {
