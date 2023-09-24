@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { searchProductApi } from '@/api/product.js'
 import { errorToast } from '@/helper/toast.js'
@@ -12,6 +12,7 @@ export const useQueryStringStore = defineStore('queryStringHelper', () => {
   const priceMax = ref('')
   const page = ref(1)
   const shopId = ref('')
+  const categories: string[] = reactive([])
 
   // 用於 re-render product 
   const productListKey = ref(0)
@@ -24,6 +25,12 @@ export const useQueryStringStore = defineStore('queryStringHelper', () => {
     if (priceMax.value) str += `&priceMax=${priceMax.value}`
     if (page.value) str += `&page=${page.value}`
     if (shopId.value) str += `&shopId=${shopId.value}`
+
+    // 清空用負1代表，所以篩選出不是負1的數字，就是新的分類id陣列
+    // 把他放入query string
+    if (categories.length) {
+      for (const cat of categories) if (cat !== '-1') str += `&categoryId[]=${cat}`
+    }
 
     return str
   })
@@ -54,6 +61,16 @@ export const useQueryStringStore = defineStore('queryStringHelper', () => {
   function handlePriceRange(newPriceMin, newPriceMax) {
     priceMin.value = newPriceMin
     priceMax.value = newPriceMax
+  }
+
+  function handleAddCategory(checked) {
+    const res: string[] = []
+    // 篩選傳入的分類 (checked)，只要有勾選的
+    for (const cat of checked) if (cat['isChecked']) res.push(`${cat['id']}`)
+
+    // 先把categories清空，再把有勾選的放入
+    for (const i in categories) categories[i] = '-1'
+    Object.assign(categories, res)
     page.value = 1
 
     productListKey.value += 1
@@ -65,6 +82,8 @@ export const useQueryStringStore = defineStore('queryStringHelper', () => {
 
     priceMin.value = ''
     priceMax.value = ''
+    // categories清空
+    for (const i in categories) categories[i] = '-1'
     page.value = 1
 
     // 用於 re-render product 
@@ -82,6 +101,8 @@ export const useQueryStringStore = defineStore('queryStringHelper', () => {
     keyword.value = ''
     priceMin.value = ''
     priceMax.value = ''
+    // categories清空
+    for (const i in categories) categories[i] = '-1'
     page.value = 1
   }
 
@@ -107,6 +128,7 @@ export const useQueryStringStore = defineStore('queryStringHelper', () => {
     priceMax,
     page,
     shopId,
+    categories,
     queryString,
     handleClickPage,
     handleHomePage,
@@ -114,6 +136,7 @@ export const useQueryStringStore = defineStore('queryStringHelper', () => {
     productListKey,
     handleSearchKeyword,
     handlePriceRange,
+    handleAddCategory,
     handleClearSearch,
     handleClearAll,
     handleClearQueryExceptShop

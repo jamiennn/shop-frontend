@@ -14,9 +14,6 @@ const json = {
 }
 
 test('try to login', async ({ page }) => {
-  await page.route(`${baseUrl}/users/login`, async route => {
-    await route.fulfill({ json })
-  })
   await page.goto('http://localhost:3003/shop-frontend/login');
 
   const submit = page.locator('#submit')
@@ -32,11 +29,14 @@ test('try to login', async ({ page }) => {
   // 成功登入
   await password.fill('12345678')
   await submit.click()
+  await page.route(`${baseUrl}/users/login`, async route => {
+    await route.fulfill({ json })
+  })
   await page.waitForURL('http://localhost:3003/shop-frontend/')
   await expect(page.locator('ul.nav-list-wrapper')).toContainText(/buyer000/)
 
   //成功登出
   await page.locator('button.btn-logout').click()
-  await expect(page.locator('ul.nav-list-wrapper')).toContainText(/login/)
+  await page.waitForURL('http://localhost:3003/shop-frontend/login')
 });
 

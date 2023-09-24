@@ -31,6 +31,7 @@ defineProps<{
 <style scoped lang="scss">
 .nav-container {
   @extend %standard-boxshadow;
+  position: relative;
   min-width: 375px;
 }
 

@@ -198,15 +198,14 @@ const inputInvalid = computed(() => {
         <FileInput name="image" nameCn="圖片" type="file" accept="image/*" v-model="form.imageInput"
           :imageInput="form.imageInput" />
 
-        <div v-if="route.name === 'create'" class="button-wrapper">
-          <button type="submit" class="btn-submit" id="submit" @click.stop.prevent="() => {
+        <div class="button-wrapper">
+          <button v-if="route.name === 'create'" type="submit" class="btn-submit" id="submit" @click.stop.prevent="() => {
             checkBeforeSubmit('create')
           }" :disabled="inputInvalid">新增商品</button>
-        </div>
-        <div v-if="route.name === 'edit'" class="button-wrapper">
-          <button type="submit" class="btn-submit" id="submit" @click.stop.prevent="() => {
+          <button v-if="route.name === 'edit'" type="submit" class="btn-submit" id="submit" @click.stop.prevent="() => {
             checkBeforeSubmit('edit')
           }" :disabled="inputInvalid">編輯商品</button>
+          <button type="button" class="btn-submit" @click="() => router.go(-1)">返回</button>
         </div>
       </form>
     </section>
@@ -240,11 +239,11 @@ const inputInvalid = computed(() => {
   margin-top: 20px;
 
   .button-wrapper {
-    width: 20%;
+    width: 100%;
 
     .btn-submit {
-      margin-top: 20px;
-      width: 100%;
+      margin: 20px 20px 0 0;
+      width: 110px;
       height: 35px;
       border-radius: 3px;
       border: 0px;

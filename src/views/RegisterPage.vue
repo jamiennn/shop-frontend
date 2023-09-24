@@ -87,7 +87,7 @@ const inputInvalid = computed(() => {
       <FormImput name="email" nameCn="email" type="email" v-model="form.emailInput" customClass="" />
       <FormImput name="password" nameCn="密碼" type="password" v-model="form.passwordInput" customClass="" />
       <FormImput name="checkPassword" nameCn="確認密碼" type="password" v-model="form.checkPasswordInput" customClass="" />
-      <ChecksInput name="isSeller" nameCn="我要註冊為商家" v-model="form.isSellerInput" />
+      <ChecksInput name="isSeller" nameCn="我要註冊為商家" textSize="m" v-model="form.isSellerInput" />
       <div class="button-wrapper">
         <button type="submit" class="btn-submit" id="submit" @click.stop.prevent="handleRegister"
           :disabled="inputInvalid">註冊</button>

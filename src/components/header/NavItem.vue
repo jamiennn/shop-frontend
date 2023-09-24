@@ -55,7 +55,7 @@ const wrapperClass = "nav-list d-flex flex-row"
   </div>
   <div v-else-if="role === 'guest'" :class="wrapperClass">
     <li class="create">
-      <router-link class="nav-list-item" to="/login">
+      <router-link class="nav-list-item login" to="/login">
         login
       </router-link>
     </li>
@@ -80,6 +80,10 @@ const wrapperClass = "nav-list d-flex flex-row"
   cursor: pointer;
   margin: 0 10px;
   opacity: 0;
+}
+
+.login {
+  opacity: 1;
 }
 
 li {

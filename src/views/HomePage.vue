@@ -1,11 +1,15 @@
 <script setup lang="ts">
-import { watch, ref } from 'vue'
+import { watch, ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { useWindowSize } from '@vueuse/core'
+const { width } = useWindowSize()
 import Header from '@/components/header/Header.vue'
 import ProductList from '@/components/product/ProductList.vue'
 import SideBar from '@/components/form/SideBar.vue'
 import Store from '@/assets/images/Store.vue'
 import { getUserApi } from '@/api/user.js'
+import { useModeStore } from '@/stores/mode'
+const modeStore = useModeStore()
 const route = useRoute()
 const uid = ref()
 const sellerAccount = ref()
@@ -23,20 +27,29 @@ watch(route, async () => {
   }
 }, { immediate: true })
 
+watch(width, () => {
+  if (width.value > 480) {
+    modeStore.hamChecked = false
+  }
+})
+
 </script>
 
 <template>
-  <Header :searchbar="true" :userId="uid" />
-  <main class="container">
-    <section class="side-bar">
-      <SideBar />
-    </section>
-    <section class="product-list">
-      <Store class="store-icon" v-if="uid" />
-      <div class="seller-title" v-if="uid">{{ sellerAccount }}的商品</div>
-      <ProductList :sellerId="uid" />
-    </section>
-  </main>
+  <div style="position: relative;">
+    <Header :searchbar="true" :userId="uid" />
+    <main class="container">
+      <section class="side-bar">
+        <SideBar />
+      </section>
+      <section class="product-list">
+        <Store class="store-icon" v-if="uid" />
+        <div class="seller-title" v-if="uid">{{ sellerAccount }}的商品</div>
+        <ProductList :sellerId="uid" />
+      </section>
+    </main>
+    <div v-if="modeStore.hamChecked" class="dark"></div>
+  </div>
 </template>
 
 <style lang="scss">
@@ -46,7 +59,19 @@ watch(route, async () => {
   justify-content: space-evenly;
 }
 
+.dark {
+  position: absolute;
+  top: 80px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  min-width: 375px;
+  background-color: gray;
+  opacity: .5;
+}
+
 .side-bar {
+  margin-bottom: 10px;
   width: 100%;
 }
 

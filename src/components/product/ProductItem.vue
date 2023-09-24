@@ -248,6 +248,7 @@ const handleAddToCart = async (productId) => {
   .tooltip-add {
     top: 90px;
     left: 28%;
+    width: 70px;
   }
 
   .tooltip-edit {
