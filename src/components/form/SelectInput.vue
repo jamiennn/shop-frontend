@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { inject, onMounted, ref, computed } from 'vue'
-import { searchProductApi } from '@/api/product.js'
+import { getCategoriesApi } from '@/api/category.js'
 
 
 defineProps<{
@@ -14,7 +14,7 @@ const categories = ref()
 let status = inject('status')
 
 onMounted(async () => {
-  const data = await searchProductApi('')
+  const data = await getCategoriesApi()
   if (data.success) {
     categories.value = data.messages.categories
   } else {

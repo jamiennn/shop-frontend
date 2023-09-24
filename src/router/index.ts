@@ -68,24 +68,37 @@ const checkQueryBeforeHome = async (route, from) => {
   const queryStringStore = useQueryStringStore()
   const { keyword, priceMin, priceMax, page, shopId } = route.query
 
+  // 因為categories是陣列，另外做處理
+  const categories = route.query['categoryId[]']
+  const categoryIdArray = categories ? Array.isArray(categories) ? categories : [categories] : ''
+
   if (shopId) router.replace(`${from.path}${queryStringStore.queryString}`)
 
   queryStringStore.keyword = keyword
   queryStringStore.priceMin = priceMin
   queryStringStore.priceMax = priceMax
   queryStringStore.page = page
+
+  // 先把原本 store 中的陣列清空 (改成負1)，再放入 route 拿到的 query 內容
+  for (let cat of queryStringStore.categories) cat = '-1'
+  Object.assign(queryStringStore.categories, categoryIdArray)
 }
 
 // 檢查 query string
 const checkQueryBeforeShop = async (route) => {
   const queryStringStore = useQueryStringStore()
   const { keyword, priceMin, priceMax, page } = route.query
+  const categories = route.query['categoryId[]']
+  const categoryIdArray = categories ? Array.isArray(categories) ? categories : [categories] : ''
 
   queryStringStore.shopId = route.params.uid
   queryStringStore.keyword = keyword
   queryStringStore.priceMin = priceMin
   queryStringStore.priceMax = priceMax
   queryStringStore.page = page
+
+  for (let cat of queryStringStore.categories) cat = '-1'
+  Object.assign(queryStringStore.categories, categoryIdArray)
 }
 
 const clearAllQuery = () => {
