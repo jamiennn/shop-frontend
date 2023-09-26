@@ -190,15 +190,11 @@ const inputInvalid = computed(() => {
   // detail section
   .product-detail {
     width: 100%;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
 
     padding: 20px;
     background-color: white;
 
     .product-image-wrapper {
-      width: 45%;
       height: 300px;
       display: flex;
       justify-content: center;
@@ -225,7 +221,7 @@ const inputInvalid = computed(() => {
     }
 
     .product-info {
-      width: 45%;
+      margin-top: 10px;
 
       .product-name {
         @extend %standard-title;
@@ -239,7 +235,6 @@ const inputInvalid = computed(() => {
         margin-top: 20px;
         font-size: 20px;
         font-weight: 500;
-        // color: var(--danger);
       }
 
       .product-btn-wrapper {
@@ -323,6 +318,23 @@ const inputInvalid = computed(() => {
     text-align: center;
     font-size: 14px;
     font-weight: 500;
+  }
+}
+
+/////////////////電腦版/////////////////
+@media screen and (min-width: 480px) {
+  .product-detail {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    .product-image-wrapper {
+      width: 45%;
+    }
+
+    .product-info {
+      width: 45%;
+    }
   }
 }
 </style>
