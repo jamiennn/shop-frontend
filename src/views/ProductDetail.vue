@@ -170,6 +170,7 @@ const inputInvalid = computed(() => {
 
 <style lang="scss">
 .product-detail-container {
+  max-width: 1200px;
   flex-direction: column;
   justify-content: space-between;
   word-wrap: break-word;

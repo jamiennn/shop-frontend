@@ -93,9 +93,10 @@ async function handleCheckOrder() {
 
 <style lang="scss">
 .cart-container {
+  max-width: 1200px;
   flex-direction: column;
   word-wrap: break-word;
-  padding: 0 20px;
+  padding: 0 20px 20px 20px;
 
   .cart-title {
     @extend %standard-title;
@@ -106,7 +107,7 @@ async function handleCheckOrder() {
   .cart-list-container,
   .cart-list-check {
     width: 90%;
-    min-width: 765px;
+    min-width: 375px;
     margin: 0 auto;
     background-color: white;
     border-radius: 5px;

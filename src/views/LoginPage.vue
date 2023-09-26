@@ -89,6 +89,7 @@ const inputInvalid = computed(() => {
 <style scoped lang="scss">
 .login-container {
   max-width: 400px;
+  min-width: 375px;
   margin: 100px auto 0 auto;
 
   .logo {

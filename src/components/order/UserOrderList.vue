@@ -21,6 +21,9 @@ onMounted(() => {
 </script>
 <template>
   <div class="user-order">
+    <router-link :to="`/orders/${order.id}`">
+      <p class="order-id">訂單編號：{{ order.id }}</p>
+    </router-link>
     <OrderItem :order="order" :key="order.id" />
     <div class="user-order-footer">
       <router-link :to="`/orders/${order.id}`">
@@ -41,6 +44,11 @@ onMounted(() => {
   margin-bottom: 50px;
   padding: 20px;
   background-color: white;
+
+  .order-id {
+    @extend %standard-title;
+    font-size: 16px;
+  }
 }
 
 .user-order-footer {
