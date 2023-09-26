@@ -42,7 +42,7 @@ const modeStore = useModeStore()
   position: absolute;
   top: 80px;
   right: 10px;
-  z-index: 1;
+  z-index: 3;
   width: 200px;
   border-radius: 5px;
   background-color: white;

@@ -2,6 +2,7 @@
 import Logo from '@/components/header/Logo.vue'
 import NavSearch from '@/components/header/NavSearch.vue'
 import NavList from '@/components/header/NavList.vue'
+import Dark from '@/components/background/Dark.vue'
 import { useQueryStringStore } from '@/stores/queryString'
 const queryStringStore = useQueryStringStore()
 
@@ -26,6 +27,7 @@ defineProps<{
       </div>
     </div>
   </header>
+  <Dark />
 </template>
 
 <style scoped lang="scss">

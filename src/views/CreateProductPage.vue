@@ -215,6 +215,7 @@ const inputInvalid = computed(() => {
 <style lang="scss">
 .create-product-container {
   display: block;
+  max-width: 1200px;
   padding: 0 10px 20px 10px
 }
 
