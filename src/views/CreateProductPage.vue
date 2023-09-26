@@ -189,11 +189,11 @@ const inputInvalid = computed(() => {
       <div v-if="status === 'error'" class="invalid-feedback">*紅色項目必填</div>
 
       <form method="POST" enctype="multipart/form-data" id="form">
-        <FormImput name="name" nameCn="商品名稱" type="text" v-model="form.nameInput" customClass="w-25" />
+        <FormImput name="name" nameCn="商品名稱" type="text" v-model="form.nameInput" customClass="w-60" />
 
-        <FormImput name="price" nameCn="定價" type="number" v-model="form.priceInput" customClass="w-25" />
+        <FormImput name="price" nameCn="定價" type="number" v-model="form.priceInput" customClass="w-60" />
         <TextArea name="description" nameCn="商品描述" type="text" v-model="form.descriptionInput" />
-        <FormImput name="stock" nameCn="庫存" type="number" v-model="form.stockInput" customClass="w-25" />
+        <FormImput name="stock" nameCn="庫存" type="number" v-model="form.stockInput" customClass="w-60" />
         <SelectInput name="category" nameCn="分類" v-model="form.categoryInput" :categoryInput="form.categoryInput" />
         <FileInput name="image" nameCn="圖片" type="file" accept="image/*" v-model="form.imageInput"
           :imageInput="form.imageInput" />

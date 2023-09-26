@@ -33,31 +33,36 @@ const handleLoad = (e) => {
       <label :for="name" class="form-label">請上傳{{ nameCn }}：</label>
       <input :type="type" :id="name" :name="name" @change="handleLoad" :disabled="status.value === 'submitting'">
     </div>
-    <span class="form-label">圖片預覽：</span>
-    <div class="product-image-wrapper">
-      <Placeholder v-show="!previewImage && !imageInput" class="product-image placeholder" />
-      <img v-show="previewImage || imageInput" :src="previewImage || imageInput" class="product-image " />
+    <div class="product-preview-wrapper">
+      <div class="form-label">圖片預覽：</div>
+      <div class="product-image-wrapper">
+        <Placeholder v-show="!previewImage && !imageInput" class="product-image placeholder" />
+        <img v-show="previewImage || imageInput" :src="previewImage || imageInput" class="product-image " />
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
 .file-input-wrapper {
-  display: flex;
 
   .bg-form-gray {
     display: inline-block;
     position: relative;
     margin-bottom: 32px;
     border-radius: 2px;
-    width: 250px;
+    width: 230px;
   }
 
   .form-label {
     height: 22px;
-    margin: 0 10px 0 0px;
+    margin: 0 10px 10px 0px;
     color: var(--blue);
     font-size: 16px;
+  }
+
+  .product-preview-wrapper {
+    margin-bottom: 20px;
   }
 
   .product-image-wrapper {
@@ -79,6 +84,14 @@ const handleLoad = (e) => {
       width: 20%;
       height: 20%;
     }
+  }
+}
+
+/////////////////電腦版/////////////////
+@media screen and (min-width: 720px) {
+  .file-input-wrapper {
+    display: flex;
+
   }
 }
 </style>
