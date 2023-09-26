@@ -12,7 +12,6 @@ import CartItem from '@/components/cart/CartItem.vue'
 <style scoped lang="scss">
 .cart-list {
   background-color: white;
-  min-width: 765px;
 
   .cart-list-wrapper {
     margin: 20px;

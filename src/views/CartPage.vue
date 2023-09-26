@@ -22,11 +22,12 @@ const CartStore = useCartStore()
   </main>
 </template>
 
-<style lang="scss">
+<style scoped lang="scss">
 .cart-container {
+  max-width: 1200px;
   flex-direction: column;
   word-wrap: break-word;
-  padding: 0 20px;
+  padding: 0 20px 20px 20px;
 
   .cart-title {
     @extend %standard-title;
@@ -37,7 +38,7 @@ const CartStore = useCartStore()
   .cart-list-container,
   .cart-list-check {
     width: 90%;
-    min-width: 765px;
+    min-width: 375px;
     margin: 0 auto;
     background-color: white;
     border-radius: 5px;

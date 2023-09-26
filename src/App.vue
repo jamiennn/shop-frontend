@@ -3,6 +3,8 @@
 </script>
 
 <template>
-  <RouterView />
+  <div style="position: relative">
+    <RouterView />
+  </div>
 </template>
 

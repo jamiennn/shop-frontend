@@ -55,6 +55,10 @@ input:valid {
   width: 25%;
 }
 
+.w-60 {
+  width: 60%;
+}
+
 .form-label {
   height: 22px;
   width: 100%;

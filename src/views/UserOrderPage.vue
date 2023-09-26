@@ -58,20 +58,20 @@ onBeforeMount(async () => {
 
 <style lang="scss">
 .order-container {
+  max-width: 1200px;
   flex-direction: column;
   word-wrap: break-word;
-  padding: 0 20px;
+  padding: 0 20px 20px 20px;
 
   .order-title {
     @extend %standard-title;
     display: inline-block;
-    margin: 0 50px 10px 100px;
+    margin: 0 50px 10px 10px;
   }
 
   .order-list-container,
   .order-list-check {
     width: 90%;
-    min-width: 765px;
     margin: 0 auto;
     border-radius: 5px;
   }
@@ -89,8 +89,7 @@ onBeforeMount(async () => {
 }
 
 .order-list-wrapper {
-  margin: 20px;
-  padding: 20px;
+  min-width: 375px;
 }
 
 .no-order-title {

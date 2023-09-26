@@ -64,6 +64,10 @@ import orderItemAmount from '@/components/order/OrderItemAmount.vue'
   width: 100%;
 }
 
+thead {
+  display: none;
+}
+
 .table-header {
   width: 100%;
   font-size: 16px;
@@ -94,15 +98,15 @@ import orderItemAmount from '@/components/order/OrderItemAmount.vue'
   border-bottom: 1px solid var(--light-blue);
 
   .table-cell {
+    display: block;
     padding: 10px 6px;
     text-align: center;
-    vertical-align: middle;
 
     .cart-image-wrapper {
       position: relative;
-      width: 100%;
-      height: 100px;
-      display: flex;
+      width: 240px;
+      height: 150px;
+      margin: 10px auto 0 auto;
       justify-content: center;
       align-items: center;
 
@@ -154,6 +158,28 @@ import orderItemAmount from '@/components/order/OrderItemAmount.vue'
     font-size: 15px;
     font-weight: 400;
     text-align: end;
+  }
+}
+
+
+/////////////////電腦版/////////////////
+
+@media screen and (min-width: 720px) {
+  thead {
+    display: contents;
+  }
+
+  .table-row {
+    .table-cell {
+      display: table-cell;
+      vertical-align: middle;
+
+      .cart-image-wrapper {
+        margin: 0;
+        width: 100%;
+        height: 100px;
+      }
+    }
   }
 }
 </style>
