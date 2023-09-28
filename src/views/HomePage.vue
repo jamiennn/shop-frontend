@@ -5,6 +5,7 @@ import Header from '@/components/header/Header.vue'
 import ProductList from '@/components/product/ProductList.vue'
 import SideBar from '@/components/form/SideBar.vue'
 import Store from '@/assets/images/Store.vue'
+import SearchSorting from '@/components/form/SearchSorting.vue'
 import { getUserApi } from '@/api/user.js'
 
 const route = useRoute()
@@ -35,6 +36,7 @@ watch(route, async () => {
     <section class="product-list">
       <Store class="store-icon" v-if="uid" />
       <div class="seller-title" v-if="uid">{{ sellerAccount }}的商品</div>
+      <SearchSorting />
       <ProductList :sellerId="uid" />
     </section>
   </main>

@@ -67,6 +67,7 @@ const checkCartAuth = (route) => {
 const checkQueryBeforeHome = async (route, from) => {
   const queryStringStore = useQueryStringStore()
   const { keyword, priceMin, priceMax, page, shopId } = route.query
+  const order = route.query['order[]']
 
   // 因為categories是陣列，另外做處理
   const categories = route.query['categoryId[]']
@@ -79,6 +80,7 @@ const checkQueryBeforeHome = async (route, from) => {
   queryStringStore.priceMax = priceMax
   queryStringStore.page = page
 
+  Object.assign(queryStringStore.order, order)
   // 先把原本 store 中的陣列清空 (改成負1)，再放入 route 拿到的 query 內容
   for (let cat of queryStringStore.categories) cat = '-1'
   Object.assign(queryStringStore.categories, categoryIdArray)
@@ -88,6 +90,7 @@ const checkQueryBeforeHome = async (route, from) => {
 const checkQueryBeforeShop = async (route) => {
   const queryStringStore = useQueryStringStore()
   const { keyword, priceMin, priceMax, page } = route.query
+  const order = route.query['order[]']
   const categories = route.query['categoryId[]']
   const categoryIdArray = categories ? Array.isArray(categories) ? categories : [categories] : ''
 
@@ -97,6 +100,7 @@ const checkQueryBeforeShop = async (route) => {
   queryStringStore.priceMax = priceMax
   queryStringStore.page = page
 
+  Object.assign(queryStringStore.order, order)
   for (let cat of queryStringStore.categories) cat = '-1'
   Object.assign(queryStringStore.categories, categoryIdArray)
 }

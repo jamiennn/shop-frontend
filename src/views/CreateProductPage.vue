@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, reactive, ref, provide, watch } from 'vue';
+import { computed, reactive, ref, provide, watch, onMounted } from 'vue';
 import router from '@/router';
 import Header from '@/components/header/Header.vue'
 import FormImput from '@/components/form/FormInput.vue'
@@ -7,6 +7,7 @@ import TextArea from '@/components/form/TextArea.vue'
 import SelectInput from '@/components/form/SelectInput.vue'
 import FileInput from '@/components/form/FileInput.vue'
 import { searchOneProductApi, createProductApi, editProductApi } from '@/api/product.js'
+import { getCategoriesApi } from '@/api/category.js'
 import Swal from 'sweetalert2'
 import { errorToast, successToast } from '@/helper/toast.js'
 import { useAuthenticator } from '@/stores/authenticator'
@@ -16,6 +17,7 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 const pid = ref(Number(route.params.pid))
 const routeName = ref('')
+const categories = ref()
 const status = ref('start')
 provide('status', status)
 
@@ -72,8 +74,18 @@ watch(route, async () => {
   }
 }, { immediate: true })
 
+//取得所有分類
+onMounted(async () => {
+  const data = await getCategoriesApi()
+  if (data.success) {
+    categories.value = data.messages.categories
+  } else {
+    console.error(data)
+  }
+})
+
 // 送出前檢查表單
-const checkBeforeSubmit = async (nextStep) => {
+const checkBeforeSubmit = async (nextStep: string) => {
   const authToken = localStorage.getItem('authToken')
   await authenticator.checkPermission(authToken)
   if (!authToken || !authenticator.isAuthenticated) {
@@ -194,7 +206,10 @@ const inputInvalid = computed(() => {
         <FormImput name="price" nameCn="定價" type="number" v-model="form.priceInput" customClass="w-60" />
         <TextArea name="description" nameCn="商品描述" type="text" v-model="form.descriptionInput" />
         <FormImput name="stock" nameCn="庫存" type="number" v-model="form.stockInput" customClass="w-60" />
-        <SelectInput name="category" nameCn="分類" v-model="form.categoryInput" :categoryInput="form.categoryInput" />
+        <div class="category-wrapper">
+          <SelectInput name="category" nameCn="分類" :options="categories" v-model="form.categoryInput"
+            :selectedInput="form.categoryInput" />
+        </div>
         <FileInput name="image" nameCn="圖片" type="file" accept="image/*" v-model="form.imageInput"
           :imageInput="form.imageInput" />
 
@@ -238,6 +253,10 @@ const inputInvalid = computed(() => {
 
 #form {
   margin-top: 20px;
+
+  .category-wrapper {
+    margin-bottom: 55px
+  }
 
   .button-wrapper {
     width: 100%;

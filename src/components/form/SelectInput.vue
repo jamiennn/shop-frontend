@@ -1,28 +1,17 @@
 <script setup lang="ts">
-import { inject, onMounted, ref, computed } from 'vue'
-import { getCategoriesApi } from '@/api/category.js'
-
+import { inject, computed } from 'vue'
 
 defineProps<{
   name: string,
   nameCn: string,
+  options: Array<any>,
   modelValue: string,
-  categoryInput: number
+  selectedInput: any
 }>()
 const emit = defineEmits(['update:modelValue'])
-const categories = ref()
-let status = inject('status')
+let status: any = inject('status')
 
-onMounted(async () => {
-  const data = await getCategoriesApi()
-  if (data.success) {
-    categories.value = data.messages.categories
-  } else {
-    console.error(data)
-  }
-})
-
-function handleSelect(e) {
+function handleSelect(e: any) {
   status.value = 'typing'
   return emit('update:modelValue', e.target.value)
 }
@@ -40,15 +29,13 @@ const selectClass = computed(() => {
   <label :for="name" class="form-label">{{ nameCn }}：</label>
   <select :class="selectClass" :id="name" @change="handleSelect" :disabled="status === 'submitting'">
     <option disabled selected>選擇{{ nameCn }}</option>
-    <option v-for="(category, index) in categories" :key="index" :value="category.id"
-      :selected="category.id === categoryInput">
-      {{ category.name }}</option>
+    <option v-for="(option, index) in options" :key="index" :value="option.id" :selected="option.id === selectedInput">
+      {{ option.name }}</option>
   </select>
 </template>
 
 <style scoped lang="scss">
 .form-select {
-  margin-bottom: 55px;
   height: 30px;
   padding: 5px;
   border: none;
