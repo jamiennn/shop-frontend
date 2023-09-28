@@ -13,6 +13,7 @@ export const useQueryStringStore = defineStore('queryStringHelper', () => {
   const page = ref(1)
   const shopId = ref('')
   const categories: string[] = reactive([])
+  const order: string[] = reactive([])
 
   // 用於 re-render product 
   const productListKey = ref(0)
@@ -31,6 +32,9 @@ export const useQueryStringStore = defineStore('queryStringHelper', () => {
     if (categories.length) {
       for (const cat of categories) if (cat !== '-1') str += `&categoryId[]=${cat}`
     }
+
+    //處理排序
+    if (order[0]?.length) str += `&order[]=${order[0]}&order[]=${order[1]}`
 
     return str
   })
@@ -75,6 +79,13 @@ export const useQueryStringStore = defineStore('queryStringHelper', () => {
 
     productListKey.value += 1
 
+    queryRedirect()
+  }
+
+  function handleOrder(selectedOrder: any) {
+    Object.assign(order, selectedOrder)
+    page.value = 1
+    productListKey.value += 1
     queryRedirect()
   }
 
@@ -129,6 +140,7 @@ export const useQueryStringStore = defineStore('queryStringHelper', () => {
     page,
     shopId,
     categories,
+    order,
     queryString,
     handleClickPage,
     handleHomePage,
@@ -137,6 +149,7 @@ export const useQueryStringStore = defineStore('queryStringHelper', () => {
     handleSearchKeyword,
     handlePriceRange,
     handleAddCategory,
+    handleOrder,
     handleClearSearch,
     handleClearAll,
     handleClearQueryExceptShop

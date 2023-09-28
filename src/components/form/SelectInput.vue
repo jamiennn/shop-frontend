@@ -6,7 +6,7 @@ defineProps<{
   nameCn: string,
   options: Array<any>,
   modelValue: string,
-  selectedInput: number
+  selectedInput: any
 }>()
 const emit = defineEmits(['update:modelValue'])
 let status: any = inject('status')
@@ -36,7 +36,6 @@ const selectClass = computed(() => {
 
 <style scoped lang="scss">
 .form-select {
-  margin-bottom: 55px;
   height: 30px;
   padding: 5px;
   border: none;

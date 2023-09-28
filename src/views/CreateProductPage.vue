@@ -206,8 +206,10 @@ const inputInvalid = computed(() => {
         <FormImput name="price" nameCn="定價" type="number" v-model="form.priceInput" customClass="w-60" />
         <TextArea name="description" nameCn="商品描述" type="text" v-model="form.descriptionInput" />
         <FormImput name="stock" nameCn="庫存" type="number" v-model="form.stockInput" customClass="w-60" />
-        <SelectInput name="category" nameCn="分類" :options="categories" v-model="form.categoryInput"
-          :selectedInput="form.categoryInput" />
+        <div class="category-wrapper">
+          <SelectInput name="category" nameCn="分類" :options="categories" v-model="form.categoryInput"
+            :selectedInput="form.categoryInput" />
+        </div>
         <FileInput name="image" nameCn="圖片" type="file" accept="image/*" v-model="form.imageInput"
           :imageInput="form.imageInput" />
 
@@ -251,6 +253,10 @@ const inputInvalid = computed(() => {
 
 #form {
   margin-top: 20px;
+
+  .category-wrapper {
+    margin-bottom: 55px
+  }
 
   .button-wrapper {
     width: 100%;
